@@ -1,0 +1,45 @@
+buildscript {
+	repositories {
+		jcenter()
+	}
+	dependencies {
+		classpath 'com.android.tools.build:gradle:1.2.3'
+	}
+}
+apply plugin: 'com.android.application'
+
+repositories {
+	jcenter()
+}
+
+android {
+	compileSdkVersion 23
+	buildToolsVersion "23.0.2"
+
+	defaultConfig {
+		minSdkVersion 9
+		targetSdkVersion 23
+		versionCode 1
+		versionName "0.1"
+	}
+
+	compileOptions {
+		sourceCompatibility JavaVersion.VERSION_1_8
+		targetCompatibility JavaVersion.VERSION_1_8
+	}
+
+	buildTypes {
+		debug {
+			applicationIdSuffix ".debug"
+		}
+	}
+
+	lintOptions {
+		abortOnError true
+	}
+}
+
+dependencies {
+	compile fileTree(dir: 'libs', include: ['*.jar'])
+}
+
