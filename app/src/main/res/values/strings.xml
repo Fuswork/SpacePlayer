@@ -1,5 +1,3 @@
 <resources>
-	<string name="app_name" translatable="false">SpacePlayer</string>
-
 	<string name="hello_world" translatable="false">Hello world!</string>
 </resources>

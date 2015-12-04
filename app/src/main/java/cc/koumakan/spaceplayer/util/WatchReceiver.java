@@ -1,4 +1,4 @@
-package cc.koumakan.spaceplayer.Util;
+package cc.koumakan.spaceplayer.util;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
