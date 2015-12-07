@@ -1,3 +1,16 @@
 <resources>
 	<string name="hello_world" translatable="false">Hello world!</string>
+	
+	
+	<!-- MainView -->
+		<!-- ToolBar -->
+			<string name="listen">听</string>
+		<!-- /ToolBar -->
+	<!-- /MainView -->
+
+	<!-- PlayView -->
+	<!-- /PlayView -->
+
+	<!-- Global -->
+	<!-- /Global -->
 </resources>

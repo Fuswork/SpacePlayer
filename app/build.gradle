@@ -19,7 +19,7 @@ android {
 	buildToolsVersion "23.0.2"
 
 	defaultConfig {
-		minSdkVersion 9
+		minSdkVersion 19
 		targetSdkVersion 23
 		versionCode 1
 		versionName "0.1"
@@ -30,12 +30,12 @@ android {
 		targetCompatibility JavaVersion.VERSION_1_6
 	}
 
-//	signingConfigs { //gradle assembleRelease
+//	signingConfigs {
 //		release {
 //			storeFile file(System.console().readLine("\nKeystore file: "))
-//			storePassword System.console().readLine("\nKeystore password: ")
-//			keyAlias System.console().readLine("\nKey Alias: ")
-//			keyPassword System.console().readLine("\nKey password: ")
+//			storePassword new String(System.console().readPassword("Keystore password: "))
+//			keyAlias System.console().readLine("Key Alias: ")
+//			keyPassword new String(System.console().readPassword("Key password: "))
 //		}
 //	}
 

@@ -1,6 +1,6 @@
-SpacePlayer
+#SpacePlayer
 ====
-人机界面设计大作业，安卓音乐播放器
+Android Music Player, Just a project for HMI-Design class.
 
 ### Development
 * `IDE`: Intellij Idea 15
@@ -9,13 +9,14 @@ SpacePlayer
 * `Gradle`: 2.2.1-all
 
 ### Installation
-Download  /apk/SpacePlayer_release_*.apk
+Check your Android Version ( It may install failed if version is less than **4.4**(API 19) )
+Download  /apk/SpacePlayer_release_*.apk and Install, then enjoy it!
 
 ### Conpile and Sign APK
 If you use GUI like Android Studio, use `Build->Generate Signed APK`.
 If you use CLI, uncomment follows code in `/app/build.gradle` :
-````GROOVY
 
+````GROOVY
 //	signingConfigs { //gradle assembleRelease
 //		release {
 //			storeFile file(System.console().readLine("\nKeystore file: "))
@@ -43,4 +44,5 @@ If you use CLI, uncomment follows code in `/app/build.gradle` :
 ````
 $ gradle assembleRelease
 ````
+
 then input the key, the signed APK will be generated.

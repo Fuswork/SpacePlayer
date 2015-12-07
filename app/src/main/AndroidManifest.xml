@@ -9,11 +9,11 @@
 	<application
 			android:allowBackup="false"
 			android:icon="@mipmap/ic_launcher"
-			android:label="${apk_name}">
+			android:label="${apk_name}"
+			android:theme="@android:style/Theme.NoTitleBar">
 		<activity
 				android:name=".view.MainViewActivity"
-				android:screenOrientation="portrait"
-				android:theme="@android:style/Theme.NoTitleBar">
+				android:screenOrientation="portrait">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN"/>
 				<category android:name="android.intent.category.LAUNCHER"/>
