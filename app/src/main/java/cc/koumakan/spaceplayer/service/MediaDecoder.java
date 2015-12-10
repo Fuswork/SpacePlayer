@@ -1,9 +1,6 @@
 package cc.koumakan.spaceplayer.service;
 
-import android.media.MediaPlayer;
-
-import java.io.IOException;
-import java.util.Vector;
+		import android.media.MediaPlayer;
 
 /**
  * Created by Remilia Scarlet
@@ -11,34 +8,10 @@ import java.util.Vector;
  * <br>
  * 播放器核心，解码文件
  */
-public class MediaDecoder {
-	private MediaPlayer mediaPlayer;
+public class MediaDecoder extends MediaPlayer{
 
 	public MediaDecoder() {
-	}
-
-	/**
-	 * 解码器载入文件
-	 */
-	public void load(Object object) {
-	}
-
-	/**
-	 * 播放
-	 */
-	public void play() {
-	}
-
-	/**
-	 * 暂停
-	 */
-	public void pause() {
-	}
-
-	/**
-	 * 跳转至某时刻
-	 */
-	public void seek(int time) {
+		super();
 	}
 
 }
