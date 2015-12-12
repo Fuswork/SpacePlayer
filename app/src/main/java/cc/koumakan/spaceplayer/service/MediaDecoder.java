@@ -1,6 +1,6 @@
 package cc.koumakan.spaceplayer.service;
 
-		import android.media.MediaPlayer;
+import android.media.MediaPlayer;
 
 /**
  * Created by Remilia Scarlet
@@ -8,10 +8,10 @@ package cc.koumakan.spaceplayer.service;
  * <br>
  * 播放器核心，解码文件
  */
-public class MediaDecoder extends MediaPlayer{
+public class MediaDecoder extends MediaPlayer {
 
-	public MediaDecoder() {
-		super();
-	}
+    public MediaDecoder() {
+        super();
+    }
 
 }

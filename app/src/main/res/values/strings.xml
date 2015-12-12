@@ -1,11 +1,14 @@
 <resources>
-	<string name="hello_world" translatable="false">Hello world!</string>
-	
-	
+
+	<!-- Default or Static -->
+	<string name="loading">Loading&#8230;</string>
+	<string name="separator">-</string>
+	<string name="hello">Hello world!</string>
+
 	<!-- MainView -->
-		<!-- ToolBar -->
-			<string name="listen">听</string>
-		<!-- /ToolBar -->
+	<!-- ToolBar -->
+	<string name="listen">听</string>
+	<!-- /ToolBar -->
 	<!-- /MainView -->
 
 	<!-- PlayView -->

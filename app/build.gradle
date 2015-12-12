@@ -52,13 +52,6 @@ android {
 			zipAlignEnabled true
 		}
 	}
-
-	applicationVariants.all { variant ->
-		variant.outputs.each { output ->
-			output.outputFile = new File(rootDir.absolutePath + "/apk",
-					default_apk_name + "_" + variant.buildType.name + "_" + defaultConfig.versionName + ".apk")
-		}
-	}
 }
 
 dependencies {

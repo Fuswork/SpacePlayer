@@ -1,112 +1,112 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#c79494">
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingTop="25dp"
+                android:background="#c79494">
 
-    <TextView
-        android:id="@+id/tvPlayerTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="5dp"
-        android:text="歌曲"
-        android:textColor="#FFFFFF"
-        android:textSize="20sp" />
+	<TextView
+		android:id="@+id/tvPlayerTitle"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_centerHorizontal="true"
+		android:text="歌曲"
+		android:textColor="#FFFFFF"
+		android:textSize="20sp"/>
 
-    <TextView
-        android:id="@+id/tvPlayerInfo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tvPlayerTitle"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="5dp"
-        android:text="艺术家 - 专辑"
-        android:textColor="#FFFFFF" />
+	<TextView
+		android:id="@+id/tvPlayerInfo"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_below="@+id/tvPlayerTitle"
+		android:layout_centerHorizontal="true"
+		android:layout_marginTop="5dp"
+		android:text="艺术家 - 专辑"
+		android:textColor="#FFFFFF"/>
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tvPlayerInfo"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="60dp"
-        android:src="@drawable/default_music_img" />
+	<ImageView
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_below="@+id/tvPlayerInfo"
+		android:layout_centerHorizontal="true"
+		android:layout_marginTop="60dp"
+		android:src="@drawable/default_music_img"/>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/rlButtonArea"
-        android:layout_marginBottom="20dp"
-        android:orientation="horizontal">
+	<RelativeLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_above="@+id/rlButtonArea"
+		android:layout_marginBottom="20dp"
+		android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/tvPlayerTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="10dp"
-            android:text="00:00"
-            android:textColor="#DDDDDD" />
+		<TextView
+			android:id="@+id/tvPlayerTime"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_alignParentStart="true"
+			android:layout_marginStart="10dp"
+			android:text="00:00"
+			android:textColor="#DDDDDD"/>
 
-        <SeekBar
-            android:id="@+id/sbPlayerProgress"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toLeftOf="@+id/tvPlayerDuration"
-            android:layout_toRightOf="@+id/tvPlayerTime"
-            android:indeterminate="false"
-            android:max="1000"
-            android:progress="0"
-            android:progressBackgroundTint="#DDDDDD"
-            android:progressTint="#FFFFFF"
-            android:thumbTint="#FFFFFF" />
+		<SeekBar
+			android:id="@+id/sbPlayerProgress"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_toStartOf="@+id/tvPlayerDuration"
+			android:layout_toEndOf="@+id/tvPlayerTime"
+			android:indeterminate="false"
+			android:max="1000"
+			android:progress="0"
+			android:progressBackgroundTint="#DDDDDD"
+			android:progressTint="#FFFFFF"
+			android:thumbTint="#FFFFFF"/>
 
-        <TextView
-            android:id="@+id/tvPlayerDuration"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="10dp"
-            android:text="00:00"
-            android:textColor="#DDDDDD" />
-    </RelativeLayout>
+		<TextView
+			android:id="@+id/tvPlayerDuration"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_alignParentEnd="true"
+			android:layout_marginEnd="10dp"
+			android:text="00:00"
+			android:textColor="#DDDDDD"/>
+	</RelativeLayout>
 
-    <RelativeLayout
-        android:id="@+id/rlButtonArea"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="20dp">
+	<RelativeLayout
+		android:id="@+id/rlButtonArea"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_alignParentBottom="true"
+		android:layout_marginBottom="20dp">
 
-        <Button
-            android:id="@+id/btnPlayerPrevious"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="40dp"
-            android:background="#AAAAAA"
-            android:text="上一首"
-            android:textColor="#FFFFFF" />
+		<Button
+			android:id="@+id/btnPlayerPrevious"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginStart="40dp"
+			android:background="#AAAAAA"
+			android:text="上一首"
+			android:textColor="#FFFFFF"/>
 
-        <Button
-            android:id="@+id/btnPlayerPlayPause"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_toRightOf="@+id/btnPlayerPrevious"
-            android:background="#AAAAAA"
-            android:text="播放"
-            android:textColor="#FFFFFF" />
+		<Button
+			android:id="@+id/btnPlayerPlayPause"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginEnd="20dp"
+			android:layout_toEndOf="@+id/btnPlayerPrevious"
+			android:background="#AAAAAA"
+			android:text="播放"
+			android:textColor="#FFFFFF"/>
 
-        <Button
-            android:id="@+id/btnPlayerNext"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_toRightOf="@+id/btnPlayerPlayPause"
-            android:background="#AAAAAA"
-            android:text="下一首"
-            android:textColor="#FFFFFF" />
+		<Button
+			android:id="@+id/btnPlayerNext"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginStart="20dp"
+			android:layout_toEndOf="@+id/btnPlayerPlayPause"
+			android:background="#AAAAAA"
+			android:text="下一首"
+			android:textColor="#FFFFFF"/>
 
-    </RelativeLayout>
+	</RelativeLayout>
 
 </RelativeLayout>

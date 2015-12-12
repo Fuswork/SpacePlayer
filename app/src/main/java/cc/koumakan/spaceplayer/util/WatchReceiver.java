@@ -10,9 +10,9 @@ import android.content.Intent;
  * <br>
  * 系统广播通知监视，检测手机摇晃、按键等
  */
-public class WatchReceiver extends BroadcastReceiver{
-	@Override
-	public void onReceive(Context context, Intent intent) {
+public class WatchReceiver extends BroadcastReceiver {
 
-	}
+    public void onReceive(Context context, Intent intent) {
+
+    }
 }

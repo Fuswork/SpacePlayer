@@ -1,66 +1,85 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-								android:layout_width="match_parent"
-								android:layout_height="64dp"
-								android:padding="2dp">
-
-	<ImageView
-			android:id="@+id/icon"
-			android:layout_width="60dp"
-			android:layout_height="60dp"/>
-
-	<TextView
-			android:id="@+id/music_name"
-			android:layout_toRightOf="@id/icon"
-			android:layout_toEndOf="@id/icon"
-			android:layout_marginTop="2dp"
-			android:layout_width="wrap_content"
-			android:layout_height="30dp"
-
-			android:textSize="12sp"
-			android:gravity="center"
-			android:text="歌曲名"/>
-
-	<TextView
-			android:id="@+id/music_artist"
-			android:layout_alignLeft="@+id/music_name"
-			android:layout_alignStart="@id/music_name"
-			android:layout_below="@id/music_name"
-			android:layout_width="wrap_content"
-			android:layout_height="20dp"
-			android:text="歌手名"/>
-
-	<TextView
-			android:id="@+id/music_album"
-			android:layout_toRightOf="@id/music_artist"
-			android:layout_toEndOf="@id/music_artist"
-			android:layout_alignTop="@id/music_artist"
-			android:layout_width="wrap_content"
-			android:layout_height="20dp"
-			android:text="专辑名"/>
-
+                android:layout_width="match_parent"
+                android:layout_height="64dp">
 
 	<ImageButton
-			android:id="@+id/button_quit"
-			android:layout_alignParentRight="true"
+			android:id="@+id/ntf_ibtn_quit"
 			android:layout_alignParentEnd="true"
 			android:layout_centerInParent="true"
 			android:layout_width="wrap_content"
 			android:layout_height="40dp"/>
 
 	<ImageButton
-			android:id="@+id/button_next"
-			android:layout_toLeftOf="@id/button_quit"
-			android:layout_toStartOf="@id/button_quit"
+			android:id="@+id/ntf_ibtn_next"
+			android:layout_toStartOf="@id/ntf_ibtn_quit"
 			android:layout_centerInParent="true"
 			android:layout_width="wrap_content"
 			android:layout_height="40dp"/>
 
 	<ImageButton
-			android:id="@+id/button_pause"
-			android:layout_toLeftOf="@id/button_next"
-			android:layout_toStartOf="@id/button_next"
+			android:id="@+id/ntf_ibtn_pause"
+			android:layout_toStartOf="@id/ntf_ibtn_next"
 			android:layout_centerInParent="true"
 			android:layout_width="wrap_content"
 			android:layout_height="40dp"/>
+	
+	<ImageView
+			android:id="@+id/ntf_iv_icon"
+			android:src="@drawable/default_music_img"
+			android:contentDescription="@string/hello"
+			android:layout_width="64dp"
+			android:layout_height="64dp"/>
+
+	<TextView
+			style="@style/NotificationTitle"
+			android:id="@+id/ntf_tv_musicName"
+			android:layout_toEndOf="@id/ntf_iv_icon"
+			android:layout_toStartOf="@id/ntf_ibtn_pause"
+			android:layout_marginTop="2dp"
+			android:layout_marginStart="5dp"
+			android:layout_width="wrap_content"
+			android:layout_height="30dp"
+			android:gravity="bottom"
+
+			android:singleLine="true"
+			android:text="@string/loading"/>
+
+	<TextView
+			style="@style/Notification"
+			android:id="@+id/ntf_tv_musicArtist"
+			android:layout_alignStart="@id/ntf_tv_musicName"
+			android:layout_below="@id/ntf_tv_musicName"
+			android:layout_marginTop="2dp"
+			android:layout_width="wrap_content"
+			android:layout_height="24dp"
+			android:gravity="top"
+
+			android:singleLine="true"
+			android:maxEms="10"
+			android:text="@string/loading"/>
+
+	<TextView
+			style="@style/Notification"
+			android:id="@+id/ntf_tv_separator"
+			android:layout_toEndOf="@id/ntf_tv_musicArtist"
+			android:layout_alignTop="@id/ntf_tv_musicArtist"
+			android:layout_width="10dp"
+			android:layout_height="24dp"
+			android:gravity="center_horizontal"
+			android:text="@string/separator"/>
+
+	<TextView
+			style="@style/Notification"
+			android:id="@+id/ntf_tv_musicAlbum"
+			android:layout_toEndOf="@id/ntf_tv_separator"
+			android:layout_alignTop="@id/ntf_tv_musicArtist"
+			android:layout_toStartOf="@id/ntf_ibtn_pause"
+			android:layout_width="wrap_content"
+			android:layout_height="24dp"
+			android:gravity="top"
+
+			android:singleLine="true"
+			android:text="@string/loading"/>
+
 
 </RelativeLayout>

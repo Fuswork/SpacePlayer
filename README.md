@@ -1,4 +1,4 @@
-#SpacePlayer
+SpacePlayer
 ====
 Android Music Player, Just a project for HMI-Design class.
 
@@ -8,11 +8,10 @@ Android Music Player, Just a project for HMI-Design class.
 * `Buildtools`: 23.0.2
 * `Gradle`: 2.2.1-all
 
-### Installation
-Check your Android Version ( It may install failed if version is less than **4.4**(API 19) )
-Download  /apk/SpacePlayer_release_*.apk and Install, then enjoy it!
+### Install
+You can download apk file form [***Here***](http://download.koumakan.cc/SpacePlayer)
 
-### Conpile and Sign APK
+### Compile and Sign
 If you use GUI like Android Studio, use `Build->Generate Signed APK`.
 If you use CLI, uncomment follows code in `/app/build.gradle` :
 
@@ -45,4 +44,4 @@ If you use CLI, uncomment follows code in `/app/build.gradle` :
 $ gradle assembleRelease
 ````
 
-then input the key, the signed APK will be generated.
+then input your key, the signed APK will be generated.
