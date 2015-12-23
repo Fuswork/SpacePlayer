@@ -40,13 +40,10 @@ public class PlayerService extends Service {
             mediaDecoder = new MediaDecoder();
             mediaDecoder.setOnCompletionListener(new mOnComplationListener());
         }
-//		initPlayList();
-//		timer.schedule(timerTask, 0, 1000);
-//		notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
     }
 
     private MediaDecoder mediaDecoder = null;//解码器
-    private Map<String, Vector<Music>> playList;//播放列表
+
 
     private int currentID = 0;
     private boolean isNew = true;
@@ -58,9 +55,7 @@ public class PlayerService extends Service {
     }
 
 
-    /**
-     * 解码器载入文件
-     */
+    /** 解码器载入文件 */
     public void load(String source) {
         try {
             mediaDecoder.setDataSource(source);
@@ -69,12 +64,10 @@ public class PlayerService extends Service {
         }
     }
 
-    /**
-     * 播放
-     */
+    /** 播放 **/
     public void play() {
         if (isNew) {
-            load(getSource(currentID));
+//            load(getSource(currentID));
             try {
                 mediaDecoder.prepare();
             } catch (IOException e) {
@@ -85,14 +78,11 @@ public class PlayerService extends Service {
 
         }
         mediaDecoder.start();
-        showNotification();
         isPlaying = true;
         timerTask.run();
     }
 
-    /**
-     * 暂停
-     */
+    /** 暂停 */
     public void pause() {
         if (mediaDecoder.isPlaying()) {
             mediaDecoder.pause();
@@ -101,9 +91,7 @@ public class PlayerService extends Service {
         timerTask.run();
     }
 
-    /**
-     * 跳转至某时刻
-     */
+    /** 跳转至某时刻 */
     public void seek(double rate) {
         if (isNew) {
             play();
@@ -115,9 +103,7 @@ public class PlayerService extends Service {
         timerTask.run();
     }
 
-    /**
-     * 下一首
-     */
+    /** 下一首 */
     public void next() {
         if (!isNew) {
             mediaDecoder.stop();
@@ -128,9 +114,7 @@ public class PlayerService extends Service {
         play();
     }
 
-    /**
-     * 上一首
-     */
+    /** 上一首 */
     public void previous() {
         if (!isNew) {
             mediaDecoder.stop();
@@ -141,12 +125,11 @@ public class PlayerService extends Service {
         play();
     }
 
-    /**
-     * 跳转至某首歌
-     */
+    /** 跳转至某首歌 */
     public void skip() {
     }
 
+    /** 播放结束监听器 */
     class mOnComplationListener implements MediaPlayer.OnCompletionListener {
 
         public void onCompletion(MediaPlayer mediaPlayer) {
@@ -200,54 +183,6 @@ public class PlayerService extends Service {
         }
     };
 
-
-    private void initPlayList() {
-        Cursor mAudioCursor = this.getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, null, null, null, MediaStore.Audio.AudioColumns.TITLE);
-        Log.i("playList", "Count: " + mAudioCursor.getCount());
-        for (int i = 0; i < mAudioCursor.getCount(); i++) {
-
-            mAudioCursor.moveToNext();
-
-            int indexTitle = mAudioCursor.getColumnIndex(MediaStore.Audio.AudioColumns.TITLE);
-            int indexARTIST = mAudioCursor.getColumnIndex(MediaStore.Audio.AudioColumns.ARTIST);
-            int indexALBUM = mAudioCursor.getColumnIndex(MediaStore.Audio.AudioColumns.ALBUM);
-            int indexDURATION = mAudioCursor.getColumnIndex(MediaStore.Audio.AudioColumns.DURATION);
-            int indexDATA = mAudioCursor.getColumnIndex(MediaStore.Audio.AudioColumns.DATA);
-
-            String strDATA = mAudioCursor.getString(indexDATA);         //路径
-            String strTitle = mAudioCursor.getString(indexTitle);       //标题
-            String strARTIST = mAudioCursor.getString(indexARTIST);     //艺术家
-            String strALBUM = mAudioCursor.getString(indexALBUM);       //专辑
-            String strDURATION = mAudioCursor.getString(indexDURATION); //时长（ms）
-
-            int seconds = Integer.parseInt(strDURATION) / 1000;
-            int second = seconds % 60;
-            int duration = (int) (seconds / 60.0);
-            int minute = (duration % 60);
-            int hour = (int) (duration / 60.0);
-            strDURATION = "" + (hour == 0 ? "" : hour + ":") + (minute >= 10 ? "" : "0") + minute + ":" + (second >= 10 ? "" : "0") + second;
-//            Log.i("playList", strTitle+" - "+strARTIST+" - "+strALBUM+" - "+strDURATION);
-            if (!strTitle.contains("18326956820") && (strDATA.endsWith(".m4a") || strDATA.endsWith(".mp3")) && (hour == 0 && minute > 3 && minute < 7)) {
-                Map<String, Object> map = new HashMap<String, Object>();
-                map.put("ALBUMIMAGE", R.drawable.default_music_img);
-                map.put("TITLE", strTitle);
-                map.put("ARTIST", strARTIST);
-                map.put("ALBUM", strALBUM);
-                map.put("DURATION", strDURATION);
-                map.put("DATA", strDATA);
-                map.put("SECONDS", seconds);
-                playList.put("playlist", (Vector) map);
-                Log.i("playList", strTitle + " - " + strARTIST + " - " + strALBUM + " - " + strDURATION);
-            }
-        }
-        Log.i("playList", "Num: " + playList.size());
-    }
-
-
-    private String getSource(int id) {
-        return playList.get("playlist").get(currentID).id;
-    }
-
     @Override
     public void onDestroy() {
         mediaDecoder.release();
@@ -258,23 +193,85 @@ public class PlayerService extends Service {
         super.onDestroy();
     }
 
-    private void showNotification() {
-//		RemoteViews remoteViews;
-//		Intent intent;
-//		PendingIntent pendingIntent;
-//		NotificationCompat.Builder builder;
-//		builder = new NotificationCompat.Builder(playerContext);
-//
-//		remoteViews = new RemoteViews(getPackageName(), R.layout.notification_view);
-//		builder.setSmallIcon(R.mipmap.ic_launcher);
-//		builder.setContentText("");
-//		builder.setContentTitle("");
-//		remoteViews.setTextViewText(R.id.tvNotificationTitle, playList.get(currentID).get("TITLE").toString());
-//		remoteViews.setTextViewText(R.id.tvNotificationAlbum, playList.get(currentID).get("ALBUM").toString());
-//		intent=new Intent(playerContext, com.mymusicplayer.view.MainActivity.class);
-//		pendingIntent=PendingIntent.getActivity(playerContext, 1, intent, PendingIntent.FLAG_ONE_SHOT);
-//		builder.setContent(remoteViews);
-//		builder.setContentIntent(pendingIntent);
-//		notificationManager.notify(NOTIFICATION_ID, builder.build());
+
+    /** 定义播放列表相关操作 */
+
+    private Map<String, Vector<Music>> playList;//播放列表
+    public static final String LOCALMUSIC = "本地歌曲";
+    public static final String MYFAVORITE = "我的最爱";
+    public static final String TOTALLIST = "默认播放列表";
+
+    /**
+     * 创建新的列表
+     * @param   title 标题
+     * @return 创建结果
+     */
+    public boolean createList(String title){
+        if(playList.containsKey(title)){
+            return false;
+        }
+        Vector<Music> musics;
+        musics = new Vector<Music>();
+        playList.put(title, musics);
+        System.out.println("新建了一个播放列表: "+title);
+        return true;
     }
+
+    public boolean deleteList(String title){
+        if(title.equals(LOCALMUSIC)||title.equals(MYFAVORITE)||title.equals(TOTALLIST)){
+            return false;
+        }
+        else {
+            playList.remove(title);
+            System.out.println("删除了一个播放列表: " + title);
+            return true;
+        }
+    }
+
+    public boolean addToList(String title, Vector<Music> musics){
+        boolean res;
+        if(playList.containsKey(title)){
+            Vector<Music> m = playList.get(title);
+            res = m.addAll(musics);
+            System.out.println("已将以下歌曲: ");
+            outMusicInfo(musics);
+            System.out.println("添加到播放列表: " + title);
+        }
+        else res = false;
+        return res;
+    }
+
+//    public boolean mergeLists(String title1, String title2){
+//
+//    }
+
+    public void outList(String title){
+        if(playList.containsKey(title)){
+            Vector<Music> m = playList.get(title);
+            System.out.println("列表： "+title+" 共有歌曲 "+m.size()+" 首");
+            outMusicInfo(m);
+        }
+        else{
+            System.out.println("列表： "+title+" 不存在！");
+        }
+    }
+
+    private void outMusicInfo(Vector<Music> musics){
+        for(int i=0; i<musics.size(); i++) {
+            Music music = musics.elementAt(i);
+            System.out.println(music.title + "  " + music.artist + " - " + music.album);
+        }
+    }
+
+    public Vector<Music> getMusics(String title, int[] index){
+        Vector<Music> musics, m;
+        musics = playList.get(title);
+        m = new Vector<Music>();
+        for (int i :
+                index) {
+            m.add(musics.get(index[i]));
+        }
+        return m;
+    }
+
 }

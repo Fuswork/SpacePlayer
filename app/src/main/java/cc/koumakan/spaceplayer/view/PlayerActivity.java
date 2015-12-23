@@ -23,7 +23,7 @@ import cc.koumakan.spaceplayer.service.PlayerService;
  * <br>
  * 主界面Activity
  */
-public class MainViewActivity extends Activity implements View.OnClickListener, ServiceConnection {
+public class PlayerActivity extends Activity implements View.OnClickListener, ServiceConnection {
 
 	private TextView tvPlayerTitle, tvPlayerInfo, tvPlayerTime, tvPlayerDuration;
 	private Button btnPlayerPlayPause;
