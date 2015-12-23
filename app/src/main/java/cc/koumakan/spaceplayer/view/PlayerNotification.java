@@ -34,7 +34,7 @@ public class PlayerNotification {
 				.setContent(new RemoteViews(context.getPackageName(), R.layout.notification_main))
 				.setTicker(context.getResources().getString(R.string.hello))
 				.setContentIntent(PendingIntent.getActivity(context, 0,
-						new Intent(context, MainViewActivity.class), 0))
+						new Intent(context, PlayerActivity.class), 0))
 				.setAutoCancel(false)
 				.setOngoing(true)
 				.build();

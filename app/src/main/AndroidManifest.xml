@@ -9,18 +9,28 @@
 	<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
 	<application
-			android:allowBackup="false"
-			android:icon="@mipmap/ic_launcher"
-			android:label="${apk_name}"
-			android:theme="@android:style/Theme.NoTitleBar">
+		android:allowBackup="false"
+		android:icon="@mipmap/ic_launcher"
+		android:label="${apk_name}"
+		android:theme="@android:style/Theme.NoTitleBar">
+
+        <activity
+            android:name=".view.MainActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+
+        </activity>
 		<activity
-				android:name=".view.MainViewActivity"
-				android:launchMode="singleTask"
-				android:screenOrientation="portrait">
-			<intent-filter>
-				<action android:name="android.intent.action.MAIN"/>
-				<category android:name="android.intent.category.LAUNCHER"/>
-			</intent-filter>
+			android:name=".view.PlayerActivity"
+			android:launchMode="singleTask"
+			android:screenOrientation="portrait">
+
 		</activity>
 
 		<service android:name=".service.PlayerService"/>
