@@ -9,7 +9,7 @@ Android Music Player, Just a project for HMI-Design class.
 * `Gradle`: 2.2.1-all
 
 ### Install
-You can download apk file form [***Here***](http://download.koumakan.cc/SpacePlayer)
+You can download apk file form [***Here***](http://download.koumakan.cc/SpacePlayer "SpacePlayer_release_v.apk")
 
 ### Compile and Sign
 If you use GUI like Android Studio, use `Build->Generate Signed APK`.

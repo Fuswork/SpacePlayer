@@ -24,13 +24,16 @@
 		android:text="艺术家 - 专辑"
 		android:textColor="#FFFFFF"/>
 
-	<ImageView
+	<ImageButton
 		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
+		android:layout_height="200dp"
 		android:layout_below="@+id/tvPlayerInfo"
 		android:layout_centerHorizontal="true"
 		android:layout_marginTop="60dp"
-		android:src="@drawable/default_music_img"/>
+
+		android:background="@drawable/btn_background"
+		android:src="@drawable/default_music_img"
+		android:scaleType="center"/>
 
 	<RelativeLayout
 		android:layout_width="match_parent"
@@ -83,7 +86,6 @@
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_marginStart="40dp"
-			android:background="#AAAAAA"
 			android:text="上一首"
 			android:textColor="#FFFFFF"/>
 

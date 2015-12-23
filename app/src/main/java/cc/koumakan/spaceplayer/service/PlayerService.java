@@ -85,7 +85,6 @@ public class PlayerService extends Service {
 
         }
         mediaDecoder.start();
-        showNotification();
         isPlaying = true;
         timerTask.run();
     }
@@ -258,23 +257,4 @@ public class PlayerService extends Service {
         super.onDestroy();
     }
 
-    private void showNotification() {
-//		RemoteViews remoteViews;
-//		Intent intent;
-//		PendingIntent pendingIntent;
-//		NotificationCompat.Builder builder;
-//		builder = new NotificationCompat.Builder(playerContext);
-//
-//		remoteViews = new RemoteViews(getPackageName(), R.layout.notification_view);
-//		builder.setSmallIcon(R.mipmap.ic_launcher);
-//		builder.setContentText("");
-//		builder.setContentTitle("");
-//		remoteViews.setTextViewText(R.id.tvNotificationTitle, playList.get(currentID).get("TITLE").toString());
-//		remoteViews.setTextViewText(R.id.tvNotificationAlbum, playList.get(currentID).get("ALBUM").toString());
-//		intent=new Intent(playerContext, com.mymusicplayer.view.MainActivity.class);
-//		pendingIntent=PendingIntent.getActivity(playerContext, 1, intent, PendingIntent.FLAG_ONE_SHOT);
-//		builder.setContent(remoteViews);
-//		builder.setContentIntent(pendingIntent);
-//		notificationManager.notify(NOTIFICATION_ID, builder.build());
-    }
 }
