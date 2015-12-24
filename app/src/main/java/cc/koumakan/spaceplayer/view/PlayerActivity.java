@@ -14,7 +14,12 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
+
+import java.util.Map;
+import java.util.Vector;
+
 import cc.koumakan.spaceplayer.R;
+import cc.koumakan.spaceplayer.entity.Music;
 import cc.koumakan.spaceplayer.service.PlayerService;
 
 /**
@@ -110,7 +115,6 @@ public class PlayerActivity extends Activity implements View.OnClickListener, Se
 				handler.sendMessage(message);
 			}
 		});
-//		playerService.setPlayerContext(MainActivity.this);
 	}
 
 	private Handler handler = new android.os.Handler() {
