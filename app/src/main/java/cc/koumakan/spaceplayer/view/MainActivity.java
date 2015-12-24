@@ -53,6 +53,9 @@ public class MainActivity extends Activity implements ServiceConnection{
 
     private static final String root = "/storage/emulated/0/"; //存储盘根目录
 
+    /**
+     * 测试方法
+     */
     private void myTest(){
         /**生成 本地歌曲，添加Download文件夹下所有歌曲*/
         createList(LOCALMUSIC);
@@ -117,6 +120,11 @@ public class MainActivity extends Activity implements ServiceConnection{
         return true;
     }
 
+    /**
+     * 删除播放列表
+     * @param title 列表名
+     * @return 结果
+     */
     private boolean deleteList(String title){
         if(title.equals(LOCALMUSIC)||title.equals(MYFAVORITE)||title.equals(TOTALLIST)){
             return false;
@@ -128,6 +136,12 @@ public class MainActivity extends Activity implements ServiceConnection{
         }
     }
 
+    /**
+     * 歌曲列表添加到播放列表
+     * @param title 列表名
+     * @param musics 待添加歌曲列表
+     * @return 结果
+     */
     private boolean addToList(String title, Vector<Music> musics){
         boolean res = true;
         if(playList.containsKey(title)){
@@ -142,6 +156,12 @@ public class MainActivity extends Activity implements ServiceConnection{
         return res;
     }
 
+    /**
+     * 添加单首歌曲到播放列表
+     * @param title 列表名
+     * @param music 待添加歌曲
+     * @return 结果
+     */
     private boolean addToList(String title, Music music){
         boolean res;
         if(playList.containsKey(title)){
@@ -162,6 +182,10 @@ public class MainActivity extends Activity implements ServiceConnection{
 //
 //    }
 
+    /**
+     * 输出播放列表信息
+     * @param title 列表名
+     */
     private void outList(String title){
         if(playList.containsKey(title)){
             Vector<Music> m = playList.get(title);
@@ -173,6 +197,10 @@ public class MainActivity extends Activity implements ServiceConnection{
         }
     }
 
+    /**
+     * 输出歌曲列表信息
+     * @param musics 歌曲列表
+     */
     private void outMusicInfo(Vector<Music> musics){
         for(int i=0; i<musics.size(); i++) {
             Music music = musics.elementAt(i);
@@ -180,6 +208,12 @@ public class MainActivity extends Activity implements ServiceConnection{
         }
     }
 
+    /**
+     * 获取播放列表中的选中项
+     * @param title 列表名
+     * @param index 选中项下标数组
+     * @return 结果
+     */
     private Vector<Music> getMusics(String title, int[] index){
         Vector<Music> musics, m;
         musics = playList.get(title);
@@ -216,9 +250,9 @@ public class MainActivity extends Activity implements ServiceConnection{
     }
 
 
-    private static final int CARTIST = 1;
-    private static final int CALBUM = 2;
-    private static final int CFOLDER = 3;
+    private static final int CARTIST = 1;//按歌曲名分类
+    private static final int CALBUM = 2; //按专辑分类
+    private static final int CFOLDER = 3;//按文件夹分类
     /**
      * 对列表歌曲进行分类查看
      * @param title 列表标题
@@ -259,7 +293,7 @@ public class MainActivity extends Activity implements ServiceConnection{
                 for(Music music : musics){
                     String str = music.data;
                     int index = str.lastIndexOf('/');
-                    String key = music.data;
+                    String key = str.substring(0, index);
                     if(res.containsKey(key)){
                         Vector<Music> temp = res.get(key);
                         temp.add(music);
