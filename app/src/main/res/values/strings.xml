@@ -7,7 +7,8 @@
 
 	<!-- MainView -->
 	<!-- ToolBar -->
-	<string name="listen">听</string>
+	<string name="text">测试文字</string>
+	<string name="time">00:00</string>
 	<!-- /ToolBar -->
 	<!-- /MainView -->
 

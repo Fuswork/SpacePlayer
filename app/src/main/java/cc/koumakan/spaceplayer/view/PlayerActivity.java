@@ -14,6 +14,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
+
 import cc.koumakan.spaceplayer.R;
 import cc.koumakan.spaceplayer.service.PlayerService;
 
@@ -35,7 +36,7 @@ public class PlayerActivity extends Activity implements View.OnClickListener, Se
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_player);
+		setContentView(R.layout.view_player);
 		//浸入式通知栏
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
 				WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
@@ -110,7 +111,6 @@ public class PlayerActivity extends Activity implements View.OnClickListener, Se
 				handler.sendMessage(message);
 			}
 		});
-//		playerService.setPlayerContext(MainActivity.this);
 	}
 
 	private Handler handler = new android.os.Handler() {

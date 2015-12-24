@@ -24,6 +24,9 @@ public class PlayerService extends Service {
         public PlayerService getService() {
             return PlayerService.this;
         }
+        public Map<String, Vector<Music>> getPlayList() {
+            return playList;
+        }
     }
 
     public IBinder onBind(Intent intent) {
@@ -42,7 +45,7 @@ public class PlayerService extends Service {
     }
 
     private MediaDecoder mediaDecoder = null;//解码器
-
+    private Map<String, Vector<Music>> playList;//播放列表
 
     private int currentID = 0;
     private boolean isNew = true;
@@ -190,86 +193,5 @@ public class PlayerService extends Service {
         timerTask.cancel();
 	    playerNotification.cancel();
         super.onDestroy();
-    }
-
-
-    /** 定义播放列表相关操作 */
-
-    private Map<String, Vector<Music>> playList;//播放列表
-    public static final String LOCALMUSIC = "本地歌曲";
-    public static final String MYFAVORITE = "我的最爱";
-    public static final String TOTALLIST = "默认播放列表";
-
-    /**
-     * 创建新的列表
-     * @param   title 标题
-     * @return 创建结果
-     */
-    public boolean createList(String title){
-        if(playList.containsKey(title)){
-            return false;
-        }
-        Vector<Music> musics;
-        musics = new Vector<Music>();
-        playList.put(title, musics);
-        System.out.println("新建了一个播放列表: "+title);
-        return true;
-    }
-
-    public boolean deleteList(String title){
-        if(title.equals(LOCALMUSIC)||title.equals(MYFAVORITE)||title.equals(TOTALLIST)){
-            return false;
-        }
-        else {
-            playList.remove(title);
-            System.out.println("删除了一个播放列表: " + title);
-            return true;
-        }
-    }
-
-    public boolean addToList(String title, Vector<Music> musics){
-        boolean res;
-        if(playList.containsKey(title)){
-            Vector<Music> m = playList.get(title);
-            res = m.addAll(musics);
-            System.out.println("已将以下歌曲: ");
-            outMusicInfo(musics);
-            System.out.println("添加到播放列表: " + title);
-        }
-        else res = false;
-        return res;
-    }
-
-//    public boolean mergeLists(String title1, String title2){
-//
-//    }
-
-    public void outList(String title){
-        if(playList.containsKey(title)){
-            Vector<Music> m = playList.get(title);
-            System.out.println("列表： "+title+" 共有歌曲 "+m.size()+" 首");
-            outMusicInfo(m);
-        }
-        else{
-            System.out.println("列表： "+title+" 不存在！");
-        }
-    }
-
-    private void outMusicInfo(Vector<Music> musics){
-        for(int i=0; i<musics.size(); i++) {
-            Music music = musics.elementAt(i);
-            System.out.println(music.title + "  " + music.artist + " - " + music.album);
-        }
-    }
-
-    public Vector<Music> getMusics(String title, int[] index){
-        Vector<Music> musics, m;
-        musics = playList.get(title);
-        m = new Vector<Music>();
-        for (int i :
-                index) {
-            m.add(musics.get(index[i]));
-        }
-        return m;
     }
 }
