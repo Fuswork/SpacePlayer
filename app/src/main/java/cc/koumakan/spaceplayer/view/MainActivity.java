@@ -8,6 +8,7 @@ import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.view.WindowManager;
+import android.widget.ViewFlipper;
 
 import java.util.Map;
 import java.util.Random;
@@ -25,10 +26,15 @@ import cc.koumakan.spaceplayer.util.MusicSearcher;
 public class MainActivity extends Activity implements ServiceConnection{
 
     private PlayerService playerService = null;
+    private ViewFlipper viewFlipper;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        viewFlipper = ((ViewFlipper) findViewById(R.id.vfActivity));
+//        viewFlipper.addView();
+
         setContentView(R.layout.activity_main);
         //浸入式通知栏
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
