@@ -2,19 +2,18 @@ package cc.koumakan.spaceplayer.service;
 
 import android.app.Service;
 import android.content.Intent;
-import android.database.Cursor;
 import android.media.MediaPlayer;
 import android.os.Binder;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.provider.MediaStore;
-import android.util.Log;
-import cc.koumakan.spaceplayer.R;
 import cc.koumakan.spaceplayer.entity.Music;
 import cc.koumakan.spaceplayer.view.PlayerNotification;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.Vector;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class PlayerService extends Service {
