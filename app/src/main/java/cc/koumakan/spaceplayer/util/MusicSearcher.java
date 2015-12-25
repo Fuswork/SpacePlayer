@@ -54,7 +54,7 @@ public class MusicSearcher {
                 musics.add(music);
             }
         }
-
+        mAudioCursor.close();
         return musics;
     }
 }

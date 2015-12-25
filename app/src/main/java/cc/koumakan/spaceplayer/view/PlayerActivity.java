@@ -43,7 +43,6 @@ public class PlayerActivity extends Activity implements View.OnClickListener, Se
 		//绑定服务
 		bindService(new Intent(this, PlayerService.class), this, Context.BIND_AUTO_CREATE);
 		//设置控件监听事件
-		initView();
 	}
 
 	public void onDestroy() {
@@ -73,32 +72,6 @@ public class PlayerActivity extends Activity implements View.OnClickListener, Se
 			default:
 				break;
 		}
-	}
-
-
-	private void initView() {
-		tvPlayerTitle = (TextView) findViewById(R.id.tvPlayerTitle);
-		tvPlayerInfo = (TextView) findViewById(R.id.tvPlayerInfo);
-		tvPlayerTime = (TextView) findViewById(R.id.tvPlayerTime);
-		tvPlayerDuration = (TextView) findViewById(R.id.tvPlayerDuration);
-		findViewById(R.id.btnPlayerPrevious).setOnClickListener(this);
-		(btnPlayerPlayPause = (Button) findViewById(R.id.btnPlayerPlayPause)).setOnClickListener(this);
-		findViewById(R.id.btnPlayerNext).setOnClickListener(this);
-		playerProgress = (SeekBar) findViewById(R.id.sbPlayerProgress);
-		playerProgress.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-			public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-			}
-
-			public void onStartTrackingTouch(SeekBar seekBar) {
-				progressTouching = true;
-			}
-
-			public void onStopTrackingTouch(SeekBar seekBar) {
-				playerService.seek(1.0 * seekBar.getProgress() / seekBar.getMax());
-				progressTouching = false;
-			}
-		});
-
 	}
 
 	public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
