@@ -20,7 +20,7 @@ public class LRCUtils {
 
     private void readLRC(String path){
         try{
-            System.out.println("开始读取歌词： "+path);
+//            System.out.println("开始读取歌词： "+path);
             FileInputStream fileInputStream = new FileInputStream(path);
             int lenth = fileInputStream.available();
             byte[] buffer = new byte[lenth];
@@ -56,7 +56,7 @@ public class LRCUtils {
         String[] strLines = LRCText.split("\n");
         /**对每一行进行处理**/
         for(String strLine : strLines){
-            System.out.println("@正在处理: "+strLine);
+//            System.out.println("@正在处理: "+strLine);
             /** 循环处理标签 **/
             while(strLine.contains("]") && strLine.contains("[")){
 
@@ -64,7 +64,8 @@ public class LRCUtils {
                 int rSign = strLine.indexOf(']');
                 /** 标签内容 **/
                 String tagStr = strLine.substring(lSign+1, rSign);
-                System.out.println("标签内容： "+tagStr);
+                strLine = strLine.substring(rSign+1);
+//                System.out.println("标签内容： "+tagStr);
                 int fsSign = tagStr.indexOf(':');
                 int stSign = tagStr.indexOf('.');
 
@@ -83,7 +84,7 @@ public class LRCUtils {
                     sPart = tagStr.substring(fsSign+1);
                     tPart = "0";
                 }
-                System.out.println("标签分离结果： "+fPart+"  "+sPart+"  "+tPart);
+//                System.out.println("标签分离结果： "+fPart+"  "+sPart+"  "+tPart);
                 int fTime, sTime, tTime, time;
 
                 try{
@@ -95,15 +96,13 @@ public class LRCUtils {
                 }
 
                 time = (fTime*60+sTime)*1000+tTime*10;
-                System.out.println("标签转换结果： "+time);
+//                System.out.println("标签转换结果： "+time);
                 /** 生成一个LRCElement，其lrcStr暂定为null **/
                 LRCElement lrcElement = new LRCElement(null, time);
                 lrcList.add(lrcElement);
-
-                strLine = strLine.substring(rSign+1);
             }
             /** 此时strLine剩下的是歌词内容 **/
-            System.out.println("回填");
+//            System.out.println("回填");
             for(int i=lrcList.size()-1; i>=0; i--){
                 if(lrcList.elementAt(i).lrcStr != null) break;
                 lrcList.elementAt(i).lrcStr = strLine;

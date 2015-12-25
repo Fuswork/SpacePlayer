@@ -36,7 +36,7 @@
     <RelativeLayout
         android:id="@+id/rlPlayerProgressInfo"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="30dp"
         android:layout_above="@+id/rlPlayerButtons"
         android:layout_marginBottom="10dp">
 
@@ -45,6 +45,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
             android:layout_marginStart="20dp"
             android:text="@string/time"/>
 
@@ -53,19 +54,27 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
             android:layout_marginEnd="20dp"
             android:text="@string/time"/>
 
         <SeekBar
+            android:id="@+id/sbPlayerPogress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toEndOf="@+id/tvPlayerCurrentTime"
             android:layout_toStartOf="@+id/tvPlayerTotalTime"
+            android:layout_centerVertical="true"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
             android:max="1000"
             android:progress="300"
-            />
+
+            android:maxHeight="4dip"
+            android:minHeight="4dip"
+            android:thumbOffset="0dip"
+            android:progressDrawable="@drawable/progress_holo_light"
+            android:thumb="@drawable/detail_icon_schedule_ball"/>
 
     </RelativeLayout>
 

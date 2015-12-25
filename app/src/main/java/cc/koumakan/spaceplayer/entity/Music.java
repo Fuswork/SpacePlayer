@@ -23,6 +23,10 @@ public class Music {
     /** 大小 **/
     public int size;
 
+    public String albumImage = null;
+
+    public String lrcPath = null;
+
     public Music(String s) {
         String[] tmp = s.split("\t");
 //        id = tmp[0];

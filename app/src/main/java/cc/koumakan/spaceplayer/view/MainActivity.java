@@ -6,11 +6,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Message;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.SeekBar;
+import android.widget.TextView;
 import android.widget.ViewFlipper;
 
 import java.util.Map;
@@ -29,7 +35,10 @@ import cc.koumakan.spaceplayer.util.MusicSearcher;
  */
 public class MainActivity extends Activity implements ServiceConnection {
 
+    SeekBar sbPlayerPogress;
+
     private PlayerService playerService = null;
+    private MyHandler myHandler;
     private ViewFlipper pViewFlipper;
     private GestureDetector pGestureDetector;
 
@@ -40,6 +49,7 @@ public class MainActivity extends Activity implements ServiceConnection {
         //浸入式通知栏
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         System.out.println("开始绑定服务!");
+        myHandler = new MyHandler();
         //绑定服务
         bindService(new Intent(this, PlayerService.class), this, Context.BIND_AUTO_CREATE);
 
@@ -53,8 +63,19 @@ public class MainActivity extends Activity implements ServiceConnection {
 
         pGestureDetector = new GestureDetector(this, new mOnGestureListener());
 
+        initView();
+
     }
 
+    @Override
+    protected void onDestroy() {
+        playerService.setMainHandler(null);
+        super.onDestroy();
+    }
+
+    /**
+     * 手势识别
+     */
     private class mOnGestureListener extends GestureDetector.SimpleOnGestureListener {
 
         final int FLING_MIN_DISTANCE = 100, FLING_MIN_VELOCITY = 200;
@@ -84,18 +105,173 @@ public class MainActivity extends Activity implements ServiceConnection {
         }
     }
 
+    /**
+     * 绑定服务监听
+     *
+     * @param componentName
+     * @param iBinder
+     */
     @Override
     public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
         playerService = ((PlayerService.LocalBinder) iBinder).getService();
         playList = ((PlayerService.LocalBinder) iBinder).getPlayList();
+        playerService.setMainHandler(myHandler);
         System.out.println("服务绑定!");
+//        playerService.setCallBack(new PlayerService.CallBack() {
+//            @Override
+//            public void setData(Bundle data) {
+//                Message message = new Message();
+//                message.setData(data); //添加数据
+//                myHandler.sendMessage(message);
+//            }
+//        });
         System.out.println("开始测试!");
-//        myTest();
+        myTest();
+        playerService.setCurrentList(playList.get(LOCALMUSIC));
+        System.out.println("*************************");
+        System.out.println("******** 测试结束 ********");
+        System.out.println("*************************");
     }
 
     @Override
     public void onServiceDisconnected(ComponentName componentName) {
         System.out.println("服务解绑定!");
+    }
+
+    /**
+     * 消息处理
+     */
+    private class MyHandler extends Handler {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if (msg.what == 1) {
+                UpdatePlayerView(msg.getData());
+            }
+        }
+
+        private void UpdatePlayerView(Bundle data) {
+            TextView tvPlayerTitle = ((TextView) findViewById(R.id.tvPlayerTitle));
+            TextView tvPlayerArtistAlbum = ((TextView) findViewById(R.id.tvPlayerArtistAlbum));
+            TextView tvPlayerCurrentTime = ((TextView) findViewById(R.id.tvPlayerCurrentTime));
+            TextView tvPlayerTotalTime = ((TextView) findViewById(R.id.tvPlayerTotalTime));
+            ImageButton btnPlayerPlayPause = ((ImageButton) findViewById(R.id.btnPlayerPlayPause));
+            SeekBar sbPlayerPogress = ((SeekBar) findViewById(R.id.sbPlayerPogress));
+            ImageView ivPlayerAlbumImage = ((ImageView) findViewById(R.id.ivPlayerAlbumImage));
+
+            String artistAlbum = data.getString("ARTIST") + " - " + data.getString("ALBUM");
+            String albumImage = data.getString("ALBUM_IMAGE");
+            Boolean isPlaying = data.getBoolean("PLAYING");
+            int btnSRC = isPlaying ? R.mipmap.button_pause : R.mipmap.button_play;
+            int imageSRC = albumImage == null ? R.drawable.default_album_image : R.drawable.default_music_img;
+            int time = data.getInt("TIME");
+            int duration = data.getInt("DURATION");
+
+
+            tvPlayerTitle.setText(data.getString("TITLE"));
+            tvPlayerArtistAlbum.setText(artistAlbum);
+            tvPlayerCurrentTime.setText(TimeToText(time));
+            tvPlayerTotalTime.setText(TimeToText(duration));
+            if (!seekBarTouching) { //进度条被按下时不再刷新
+                sbPlayerPogress.setProgress((int) (time * 1.0f / duration * sbPlayerPogress.getMax()));
+            }
+            btnPlayerPlayPause.setImageResource(btnSRC);
+            ivPlayerAlbumImage.setImageResource(imageSRC);
+        }
+    }
+
+    /**
+     * 为控件添加监听
+     */
+    private void initView() {
+        findViewById(R.id.btnPlayerPlayPause).setOnClickListener(new MyOnClickListener());
+        findViewById(R.id.btnPlayerNext).setOnClickListener(new MyOnClickListener());
+        findViewById(R.id.btnPlayerPrevious).setOnClickListener(new MyOnClickListener());
+        sbPlayerPogress = (SeekBar) findViewById(R.id.sbPlayerPogress);
+        sbPlayerPogress.setOnSeekBarChangeListener(new MyOnSeekBarChangeListener());
+    }
+
+    /**
+     * 按钮点击事件
+     */
+    private class MyOnClickListener implements View.OnClickListener {
+
+        @Override
+        public void onClick(View view) {
+            switch (view.getId()) {
+                case R.id.btnPlayerPlayPause:
+                    if (playerService != null) {
+                        if (playerService.getIsPlaying()) {
+                            playerService.pause();
+                            ((ImageButton) findViewById(R.id.btnPlayerPlayPause))
+                                    .setImageResource(R.mipmap.button_play);
+                        } else {
+                            try {
+                                playerService.play();
+                                ((ImageButton) findViewById(R.id.btnPlayerPlayPause))
+                                        .setImageResource(R.mipmap.button_pause);
+                            } catch (Exception e) {
+                                System.out.println("播放出现错误!");
+                            }
+                        }
+                    }
+                    break;
+                case R.id.btnPlayerPrevious:
+                    if (playerService != null) {
+                        try {
+                            playerService.next();
+                        } catch (Exception e) {
+                            System.out.println("下一首出现错误!");
+                        }
+                    }
+                    break;
+                case R.id.btnPlayerNext:
+                    if (playerService != null) {
+                        try {
+                            playerService.previous();
+                        } catch (Exception e) {
+                            System.out.println("上一首出现错误!");
+                        }
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+    /**
+     * 指示进度条是否按下
+     */
+    private Boolean seekBarTouching = false;
+
+    /**
+     * 进度条监听器
+     */
+    private class MyOnSeekBarChangeListener implements SeekBar.OnSeekBarChangeListener {
+
+        @Override
+        public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+        }
+
+        @Override
+        public void onStartTrackingTouch(SeekBar seekBar) {
+            seekBarTouching = true;
+        }
+
+        @Override
+        public void onStopTrackingTouch(SeekBar seekBar) {
+
+            if (playerService != null) {
+                try {
+
+                    playerService.seek(seekBar.getProgress() * 1.0d / seekBar.getMax());
+                } catch (Exception e) {
+                    System.out.println("进度条改变出错!");
+                }
+            }
+            seekBarTouching = false;
+        }
     }
 
     private static final String root = "/storage/emulated/0/"; //存储盘根目录
@@ -135,19 +311,36 @@ public class MainActivity extends Activity implements ServiceConnection {
         /** 测试歌词 */
         LRCUtils lrcUtils = new LRCUtils(root + "Music/Lyric/铁竹堂 - 能不能.lrc");
         lrcUtils.outList();
-//        /**分类查看 本地歌曲  */
-//        Map<String, Vector<Music>> classifyLists;
-//        classifyLists = classifyListMusics(LOCALMUSIC, CARTIST);//按艺术家分类
-//        System.out.println("@按艺术家分类查看 本地歌曲");
-//        if(classifyLists != null) {
-//            for (String key : classifyLists.keySet()) {
-//                Vector<Music> musics = classifyLists.get(key);
-//                System.out.println("@标签： "+musics.elementAt(0).artist+" 共 "+musics.size()+" 首");
-//                outMusicInfo(musics);
-//            }
-//        }else{
-//            System.out.println("分类结果为空！");
-//        }
+        /**分类查看 本地歌曲  */
+        Map<String, Vector<Music>> classifyLists;
+        classifyLists = classifyListMusics(LOCALMUSIC, CARTIST);//按艺术家分类
+        System.out.println("************************");
+        System.out.println("************************");
+        System.out.println("************************");
+        System.out.println("@按艺术家分类查看 本地歌曲");
+        if (classifyLists != null) {
+            for (String key : classifyLists.keySet()) {
+                Vector<Music> musics = classifyLists.get(key);
+                System.out.println("@标签： " + musics.elementAt(0).artist + " 共 " + musics.size() + " 首");
+                outMusicInfo(musics);
+            }
+        } else {
+            System.out.println("分类结果为空！");
+        }
+        classifyLists = classifyListMusics(LOCALMUSIC, CALBUM);//按专辑分类
+        System.out.println("************************");
+        System.out.println("************************");
+        System.out.println("************************");
+        System.out.println("@按专辑分类查看 本地歌曲");
+        if (classifyLists != null) {
+            for (String key : classifyLists.keySet()) {
+                Vector<Music> musics = classifyLists.get(key);
+                System.out.println("@标签： " + musics.elementAt(0).album + " 共 " + musics.size() + " 首");
+                outMusicInfo(musics);
+            }
+        } else {
+            System.out.println("分类结果为空！");
+        }
     }
 
     /**
@@ -155,9 +348,9 @@ public class MainActivity extends Activity implements ServiceConnection {
      */
 
     private Map<String, Vector<Music>> playList;//播放列表
-    private static final String LOCALMUSIC = "本地歌曲";
-    private static final String MYFAVORITE = "我的最爱";
-    private static final String TOTALLIST = "默认播放列表";
+    public static final String LOCALMUSIC = "本地歌曲";
+    public static final String MYFAVORITE = "我的最爱";
+    public static final String TOTALLIST = "默认播放列表";
 
     /**
      * 创建新的列表
@@ -233,10 +426,6 @@ public class MainActivity extends Activity implements ServiceConnection {
         } else res = false;
         return res;
     }
-
-//    public boolean mergeLists(String title1, String title2){
-//
-//    }
 
     /**
      * 输出播放列表信息
@@ -369,6 +558,23 @@ public class MainActivity extends Activity implements ServiceConnection {
                 break;
         }
         return res;
+    }
+
+
+    private String TimeToText(int time) {
+
+        int seconds = time / 1000;
+        int minutes = seconds / 60;
+        seconds = seconds % 60;
+
+        String str;
+        str = String.format("%02d:%02d", minutes, seconds);
+
+        return str;
+    }
+
+    private int TextToTime(String text) {
+        return 0;
     }
 
 }
