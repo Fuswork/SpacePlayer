@@ -83,7 +83,7 @@
             android:layout_centerHorizontal="true"
             android:scaleType="fitXY"
             android:background="#00FFFFFF"
-            android:src="@mipmap/button_play"/>
+            android:src="@drawable/button_play"/>
 
         <ImageButton
             android:id="@+id/btnPlayerPrevious"
@@ -94,7 +94,7 @@
             android:layout_centerVertical="true"
             android:scaleType="fitXY"
             android:background="#00FFFFFF"
-            android:src="@mipmap/button_previous"/>
+            android:src="@drawable/button_previous"/>
 
         <ImageButton
             android:id="@+id/btnPlayerNext"
@@ -105,7 +105,7 @@
             android:layout_centerVertical="true"
             android:scaleType="fitXY"
             android:background="#00FFFFFF"
-            android:src="@mipmap/button_next"/>
+            android:src="@drawable/button_next"/>
 
     </RelativeLayout>
 
