@@ -1,16 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#84b3c7">
+<RelativeLayout
+		xmlns:android="http://schemas.android.com/apk/res/android"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent">
 
-    <ViewFlipper
-        android:id="@+id/vfActivity"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+	<LinearLayout
+			android:id="@+id/main_top"
+			android:layout_width="match_parent"
+			android:layout_height="60dp">
 
-    </ViewFlipper>
+		<ImageButton
+				android:layout_width="40dp"
+				android:layout_height="40dp"/>
+
+		<ImageButton
+				android:layout_width="40dp"
+				android:layout_height="40dp"/>
+
+		<ImageButton
+				android:layout_width="40dp"
+				android:layout_height="40dp"/>
+
+	</LinearLayout>
+
+	<ViewFlipper
+			android:id="@+id/main_bottom"
+			android:layout_alignParentBottom="true"
+			android:layout_width="match_parent"
+			android:layout_height="40dp">
+
+	</ViewFlipper>
 
 
-</FrameLayout>
+	<LinearLayout
+			android:layout_below="@id/main_top"
+			android:layout_above="@id/main_bottom"
+			android:layout_width="match_parent"
+			android:layout_height="40dp">
+
+		<ImageButton
+				android:layout_width="40dp"
+				android:layout_height="40dp"/>
+
+		<ImageButton
+				android:layout_width="40dp"
+				android:layout_height="40dp"/>
+
+		<ImageButton
+				android:layout_width="40dp"
+				android:layout_height="40dp"/>
+
+	</LinearLayout>
+
+</RelativeLayout>

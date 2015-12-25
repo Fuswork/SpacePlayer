@@ -2,39 +2,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="100dp">
 
-	<ImageButton
-			android:id="@+id/ntf_ibtn_quit"
-			android:layout_alignParentEnd="true"
-			android:layout_centerInParent="true"
-			android:layout_width="40dp"
-			android:layout_height="40dp"
-
-			android:background="@drawable/btn_background"
-			android:scaleType="fitCenter"
-			android:src="@drawable/default_btn"/>
-
-	<ImageButton
-			android:id="@+id/ntf_ibtn_next"
-			android:layout_toStartOf="@id/ntf_ibtn_quit"
-			android:layout_centerInParent="true"
-			android:layout_width="40dp"
-			android:layout_height="40dp"
-
-			android:background="@drawable/btn_background"
-			android:scaleType="fitCenter"
-			android:src="@drawable/default_btn"/>
-
-	<ImageButton
-			android:id="@+id/ntf_ibtn_pause"
-			android:layout_toStartOf="@id/ntf_ibtn_next"
-			android:layout_centerInParent="true"
-			android:layout_width="40dp"
-			android:layout_height="40dp"
-
-			android:background="@drawable/btn_background"
-			android:scaleType="fitCenter"
-			android:src="@drawable/default_btn"/>
-	
 	<ImageView
 			android:id="@+id/ntf_iv_icon"
 			android:layout_width="100dp"
@@ -46,11 +13,10 @@
 			style="@style/NotificationTitle"
 			android:id="@+id/ntf_tv_musicName"
 			android:layout_toEndOf="@id/ntf_iv_icon"
-			android:layout_toStartOf="@id/ntf_ibtn_pause"
 			android:layout_marginTop="2dp"
 			android:layout_marginStart="5dp"
 			android:layout_width="wrap_content"
-			android:layout_height="30dp"
+			android:layout_height="28dp"
 			android:gravity="bottom"
 
 			android:singleLine="true"
@@ -85,7 +51,6 @@
 			android:id="@+id/ntf_tv_musicAlbum"
 			android:layout_toEndOf="@id/ntf_tv_separator"
 			android:layout_alignTop="@id/ntf_tv_musicArtist"
-			android:layout_toStartOf="@id/ntf_ibtn_pause"
 			android:layout_width="wrap_content"
 			android:layout_height="24dp"
 			android:gravity="top"
@@ -93,5 +58,73 @@
 			android:singleLine="true"
 			android:text="@string/loading"/>
 
+	<SeekBar
+			android:id="@+id/ntf_sbar"
+			android:layout_toEndOf="@id/ntf_iv_icon"
+			android:layout_below="@id/ntf_tv_musicArtist"
+	        android:layout_width="match_parent"
+	        android:layout_height="3dp"
+	        />
+
+	<ImageButton
+			android:id="@+id/ntf_ibtn_quit"
+			android:layout_alignParentEnd="true"
+			android:layout_alignParentTop="true"
+			android:layout_height="30dp"
+			android:layout_width="30dp"
+
+			android:background="@drawable/btn_background"
+			android:scaleType="fitCenter"
+			android:src="@drawable/default_btn"/>
+	<LinearLayout
+			android:layout_toEndOf="@id/ntf_iv_icon"
+			android:layout_alignParentEnd="true"
+			android:layout_below="@id/ntf_sbar"
+			android:layout_alignParentBottom="true"
+			android:layout_marginTop="2dp"
+			android:layout_width="0dp"
+			android:layout_height="0dp">
+		<ImageButton
+				android:id="@+id/ntf_ibtn_loop"
+				android:layout_height="match_parent"
+				android:layout_weight="1"
+				android:layout_width="0dp"
+
+				android:background="@drawable/btn_background"
+				android:scaleType="fitCenter"
+				android:src="@drawable/default_btn"/>
+
+		<ImageButton
+				android:id="@+id/ntf_ibtn_previous"
+				android:layout_height="match_parent"
+				android:layout_weight="1"
+				android:layout_width="0dp"
+
+				android:background="@drawable/btn_background"
+				android:scaleType="fitCenter"
+				android:src="@drawable/default_btn"/>
+
+		<ImageButton
+				android:id="@+id/ntf_ibtn_pause"
+				android:layout_height="match_parent"
+				android:layout_weight="1"
+				android:layout_width="0dp"
+
+				android:background="@drawable/btn_background"
+				android:scaleType="fitCenter"
+				android:src="@drawable/default_btn"/>
+
+		<ImageButton
+				android:id="@+id/ntf_ibtn_next"
+				android:layout_height="match_parent"
+				android:layout_weight="1"
+				android:layout_width="0dp"
+
+				android:background="@drawable/btn_background"
+				android:scaleType="fitCenter"
+				android:src="@drawable/default_btn"/>
+
+
+	</LinearLayout>
 
 </RelativeLayout>

@@ -93,12 +93,12 @@ public class MainActivity extends Activity implements ServiceConnection {
 //        myTest();
     }
 
-    @Override
-    public void onServiceDisconnected(ComponentName componentName) {
-        System.out.println("服务解绑定!");
-    }
+	@Override
+	public void onServiceDisconnected(ComponentName componentName) {
+		System.out.println("服务解绑定!");
+	}
 
-    private static final String root = "/storage/emulated/0/"; //存储盘根目录
+	private static final String root = "/storage/emulated/0/"; //存储盘根目录
 
     /**
      * 测试方法
@@ -154,10 +154,10 @@ public class MainActivity extends Activity implements ServiceConnection {
      * 定义播放列表相关操作
      */
 
-    private Map<String, Vector<Music>> playList;//播放列表
-    private static final String LOCALMUSIC = "本地歌曲";
-    private static final String MYFAVORITE = "我的最爱";
-    private static final String TOTALLIST = "默认播放列表";
+	private Map<String, Vector<Music>> playList;//播放列表
+	private static final String LOCALMUSIC = "本地歌曲";
+	private static final String MYFAVORITE = "我的最爱";
+	private static final String TOTALLIST = "默认播放列表";
 
     /**
      * 创建新的列表
