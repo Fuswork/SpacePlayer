@@ -1,0 +1,60 @@
+buildscript {
+	repositories {
+		jcenter()
+	}
+	dependencies {
+		classpath 'com.android.tools.build:gradle:1.2.3'
+	}
+}
+apply plugin: 'com.android.application'
+
+repositories {
+	jcenter()
+}
+
+android {
+	def default_apk_name = "SpacePlayer"
+
+	compileSdkVersion 23
+	buildToolsVersion "23.0.2"
+
+	defaultConfig {
+		minSdkVersion 19
+		targetSdkVersion 23
+		versionCode 1
+		versionName "0.1"
+	}
+
+	compileOptions {
+		sourceCompatibility JavaVersion.VERSION_1_6
+		targetCompatibility JavaVersion.VERSION_1_6
+	}
+
+//	signingConfigs {
+//		release {
+//			storeFile file(System.console().readLine("\nKeystore file: "))
+//			storePassword new String(System.console().readPassword("Keystore password: "))
+//			keyAlias System.console().readLine("Key Alias: ")
+//			keyPassword new String(System.console().readPassword("Key password: "))
+//		}
+//	}
+
+	buildTypes {
+		debug {
+			applicationIdSuffix ".debug"
+			minifyEnabled false
+			manifestPlaceholders = [apk_name: default_apk_name + "_Debug"]
+		}
+		release {
+//			signingConfig signingConfigs.release
+			minifyEnabled false
+			manifestPlaceholders = [apk_name: default_apk_name]
+			zipAlignEnabled true
+		}
+	}
+}
+
+dependencies {
+	compile fileTree(include: ['*.jar'], dir: 'libs')
+}
+

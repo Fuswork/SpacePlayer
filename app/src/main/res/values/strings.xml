@@ -1,0 +1,20 @@
+<resources>
+
+	<!-- Default or Static -->
+	<string name="loading">Loading&#8230;</string>
+	<string name="separator">-</string>
+	<string name="hello">Hello world!</string>
+
+	<!-- MainView -->
+	<!-- ToolBar -->
+	<string name="text">测试文字</string>
+	<string name="time">00:00</string>
+	<!-- /ToolBar -->
+	<!-- /MainView -->
+
+	<!-- PlayView -->
+	<!-- /PlayView -->
+
+	<!-- Global -->
+	<!-- /Global -->
+</resources>

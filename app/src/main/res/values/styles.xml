@@ -1,0 +1,17 @@
+<resources
+		xmlns:tools="http://schemas.android.com/tools"
+		tools:targetApi="21">
+
+	<style name="DefaultTheme">
+		<item name="android:background">#FF000000</item>
+		<item name="android:textColor">#AAFFFFFF</item>
+	</style>
+
+
+	<style name="Notification" parent="android:TextAppearance.Material.Notification">
+		<item name="android:textSize">14sp</item>
+	</style>
+	<style name="NotificationTitle" parent="android:TextAppearance.Material.Notification.Title">
+		<item name="android:textSize">18sp</item>
+	</style>
+</resources>

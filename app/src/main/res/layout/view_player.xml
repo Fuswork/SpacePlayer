@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#7d84c1"
+    android:paddingTop="25dp">
+
+    <RelativeLayout
+        android:id="@+id/rlPlayerMusicInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tvPlayerTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="@string/hello"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"/>
+
+        <TextView
+            android:id="@+id/tvPlayerArtistAlbum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvPlayerTitle"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="5dp"
+            android:text="@string/text"
+            android:textColor="#FFFFFF"
+            android:textSize="15sp"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rlPlayerProgressInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/rlPlayerButtons"
+        android:layout_marginBottom="10dp">
+
+        <TextView
+            android:id="@+id/tvPlayerCurrentTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="20dp"
+            android:text="@string/time"/>
+
+        <TextView
+            android:id="@+id/tvPlayerTotalTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="20dp"
+            android:text="@string/time"/>
+
+        <SeekBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/tvPlayerCurrentTime"
+            android:layout_toStartOf="@+id/tvPlayerTotalTime"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:max="1000"
+            android:progress="300"
+            />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rlPlayerButtons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="50dp">
+
+        <ImageButton
+            android:id="@+id/btnPlayerPlayPause"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_centerHorizontal="true"
+            android:scaleType="fitXY"
+            android:background="#00FFFFFF"
+            android:src="@mipmap/button_play"/>
+
+        <ImageButton
+            android:id="@+id/btnPlayerPrevious"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            android:layout_toStartOf="@+id/btnPlayerPlayPause"
+            android:layout_marginEnd="30dp"
+            android:layout_centerVertical="true"
+            android:scaleType="fitXY"
+            android:background="#00FFFFFF"
+            android:src="@mipmap/button_previous"/>
+
+        <ImageButton
+            android:id="@+id/btnPlayerNext"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            android:layout_toEndOf="@+id/btnPlayerPlayPause"
+            android:layout_marginStart="30dp"
+            android:layout_centerVertical="true"
+            android:scaleType="fitXY"
+            android:background="#00FFFFFF"
+            android:src="@mipmap/button_next"/>
+
+    </RelativeLayout>
+
+    <ViewFlipper
+        android:id="@+id/vfPlayer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/rlPlayerProgressInfo"
+        android:layout_below="@+id/rlPlayerMusicInfo"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        >
+
+        <include layout="@layout/view_player_album"> </include>
+        <include layout="@layout/view_player_lyric"> </include>
+
+    </ViewFlipper>
+
+</RelativeLayout>
