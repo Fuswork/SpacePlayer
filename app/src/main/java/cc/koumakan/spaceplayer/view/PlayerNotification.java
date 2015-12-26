@@ -41,13 +41,13 @@ public class PlayerNotification {
 		notification.bigContentView = new RemoteViews(context.getPackageName(), R.layout.notification_big);
 		//添加按钮监听
 		notification.bigContentView.setOnClickPendingIntent(R.id.ntf_ibtn_pause,
-				PendingIntent.getBroadcast(context, 0, new Intent("cc.koumakan.spaceplayer.BROADCAST").putExtra("key","pause"),
+				PendingIntent.getBroadcast(context, 0, new Intent("cc.koumakan.spaceplayer.BROADCAST"),
 						PendingIntent.FLAG_UPDATE_CURRENT));
 		notification.bigContentView.setOnClickPendingIntent(R.id.ntf_ibtn_next,
-				PendingIntent.getBroadcast(context, 0, new Intent("cc.koumakan.spaceplayer.BROADCAST").putExtra("key","next"),
+				PendingIntent.getBroadcast(context, 0, new Intent("cc.koumakan.spaceplayer.BROADCAST"),
 						PendingIntent.FLAG_UPDATE_CURRENT));
 		notification.bigContentView.setOnClickPendingIntent(R.id.ntf_ibtn_quit,
-				PendingIntent.getBroadcast(context, 0, new Intent("cc.koumakan.spaceplayer.BROADCAST").putExtra("key","quit"),
+				PendingIntent.getBroadcast(context, 0, new Intent("cc.koumakan.spaceplayer.BROADCAST"),
 						PendingIntent.FLAG_UPDATE_CURRENT));
 		notification.contentView.setOnClickPendingIntent(R.id.ntf_ibtn_pause,
 				PendingIntent.getBroadcast(context, 0, new Intent("LOCAL_PAUSE"),
@@ -85,11 +85,11 @@ public class PlayerNotification {
 		if (null != name) remoteView.setTextViewText(R.id.ntf_tv_musicName, name);
 		if (null != album) remoteView.setTextViewText(R.id.ntf_tv_musicAlbum, album);
 		if (null != artist) remoteView.setTextViewText(R.id.ntf_tv_musicArtist, artist);
-		remoteView = notification.bigContentView;
-		if (0 != ic) remoteView.setImageViewResource(R.id.ntf_iv_icon, ic);
-		if (null != name) remoteView.setTextViewText(R.id.ntf_tv_musicName, name);
-		if (null != album) remoteView.setTextViewText(R.id.ntf_tv_musicAlbum, album);
-		if (null != artist) remoteView.setTextViewText(R.id.ntf_tv_musicArtist, artist);
+//		remoteView = notification.bigContentView;
+//		if (0 != ic) remoteView.setImageViewResource(R.id.ntf_iv_icon, ic);
+//		if (null != name) remoteView.setTextViewText(R.id.ntf_tv_musicName, name);
+//		if (null != album) remoteView.setTextViewText(R.id.ntf_tv_musicAlbum, album);
+//		if (null != artist) remoteView.setTextViewText(R.id.ntf_tv_musicArtist, artist);
 		notificationManager.notify(0, notification);
 	}
 

@@ -18,6 +18,10 @@ public class LRCUtils {
         readLRC(path);
     }
 
+    public Vector<LRCElement> getLrcList() {
+        return lrcList;
+    }
+
     private void readLRC(String path){
         try{
 //            System.out.println("开始读取歌词： "+path);
@@ -95,7 +99,7 @@ public class LRCUtils {
                     continue;
                 }
 
-                time = (fTime*60+sTime)*1000+tTime*10;
+                time = (fTime*60+sTime)*1000+tTime*10 - 200;//200是一个误差调整
 //                System.out.println("标签转换结果： "+time);
                 /** 生成一个LRCElement，其lrcStr暂定为null **/
                 LRCElement lrcElement = new LRCElement(null, time);
@@ -110,15 +114,37 @@ public class LRCUtils {
         }
     }
 
-    public String getLRCLine(int time){
+    public int getLRCIndex(int time){
         int i;
         for(i=0; i<lrcList.size(); i++){
             if(lrcList.elementAt(i).timePoint > time){
                 break;
             }
         }
-        if(i == 0) return null;
-        else return lrcList.elementAt(i-1).lrcStr;
+        return i-1;
+    }
+
+    public String[] getLRCLines(int time, int count){
+        if(count <= 0) return null;
+        String[] lrcLines = new String[count];
+
+        int halfCount = count / 2;
+
+        int currentIndex = getLRCIndex(time);
+
+        int startIndex = currentIndex - halfCount;
+
+        for(int i=0; i<count; i++){
+
+            int realIndex = i+startIndex;
+
+            if(realIndex < 0 || realIndex >= lrcList.size()){
+                lrcLines[i] = null;
+            }else{
+                lrcLines[i] = lrcList.elementAt(realIndex).lrcStr;
+            }
+        }
+        return lrcLines;
     }
 
     public void outList(){

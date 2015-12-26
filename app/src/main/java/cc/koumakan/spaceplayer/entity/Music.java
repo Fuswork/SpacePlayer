@@ -1,5 +1,7 @@
 package cc.koumakan.spaceplayer.entity;
 
+import cc.koumakan.spaceplayer.view.MainActivity;
+
 /**
  * Created by Remilia Scarlet
  * on 2015/12/13 16:00.
@@ -45,6 +47,7 @@ public class Music {
         this.data = data;
         this.duration = duration;
         this.size = size;
+        this.lrcPath = MainActivity.root+"Music/Lyric/"+this.artist+" - "+this.title+".lrc";
     }
 
     @Override
