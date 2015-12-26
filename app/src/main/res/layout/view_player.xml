@@ -13,32 +13,44 @@
 
         <TextView
             android:id="@+id/tvPlayerTitle"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
+            android:gravity="center_horizontal"
+            android:layout_marginStart="40dp"
+            android:layout_marginEnd="40dp"
             android:text="@string/hello"
             android:textColor="#FFFFFF"
-            android:textSize="20sp"/>
+            android:textSize="20sp"
+
+            android:ellipsize="marquee"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:singleLine="true"/>
 
         <TextView
             android:id="@+id/tvPlayerArtistAlbum"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tvPlayerTitle"
-            android:layout_centerHorizontal="true"
+            android:gravity="center_horizontal"
             android:layout_marginTop="5dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
             android:text="@string/text"
             android:textColor="#FFFFFF"
-            android:textSize="15sp"/>
+            android:textSize="15sp"
+
+            android:ellipsize="marquee"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:singleLine="true"/>
 
     </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/rlPlayerProgressInfo"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
+        android:layout_height="50dp"
         android:layout_above="@+id/rlPlayerButtons"
-        android:layout_marginBottom="10dp">
+        android:layout_marginBottom="0dp">
 
         <TextView
             android:id="@+id/tvPlayerCurrentTime"
@@ -127,7 +139,7 @@
         android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"
         android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="10dp"
         >
 
         <include layout="@layout/view_player_album"> </include>

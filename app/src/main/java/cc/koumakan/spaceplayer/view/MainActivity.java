@@ -26,6 +26,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import cc.koumakan.spaceplayer.R;
 import cc.koumakan.spaceplayer.entity.LRCUtils;
+import cc.koumakan.spaceplayer.entity.LyricView;
 import cc.koumakan.spaceplayer.entity.Music;
 import cc.koumakan.spaceplayer.service.PlayerService;
 import cc.koumakan.spaceplayer.util.MusicSearcher;
@@ -35,7 +36,8 @@ import cc.koumakan.spaceplayer.util.MusicSearcher;
  */
 public class MainActivity extends Activity implements ServiceConnection {
 
-    SeekBar sbPlayerPogress;
+    private LyricView lyricView;
+    private LRCUtils currentLRC = null;
 
     private PlayerService playerService = null;
     private MyHandler myHandler;
@@ -117,14 +119,6 @@ public class MainActivity extends Activity implements ServiceConnection {
         playList = ((PlayerService.LocalBinder) iBinder).getPlayList();
         playerService.setMainHandler(myHandler);
         System.out.println("服务绑定!");
-//        playerService.setCallBack(new PlayerService.CallBack() {
-//            @Override
-//            public void setData(Bundle data) {
-//                Message message = new Message();
-//                message.setData(data); //添加数据
-//                myHandler.sendMessage(message);
-//            }
-//        });
         System.out.println("开始测试!");
         myTest();
         playerService.setCurrentList(playList.get(LOCALMUSIC));
@@ -145,10 +139,17 @@ public class MainActivity extends Activity implements ServiceConnection {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            if (msg.what == 1) {
+            if (msg.what == 1) {//刷新播放界面各控件
                 UpdatePlayerView(msg.getData());
             }
+            else if(msg.what == 2){//刷新歌词显示
+                String[] lrcLines;
+                lrcLines = currentLRC.getLRCLines(time, LyricView.LINE_COUNT);
+                lyricView.setLRCLines(lrcLines);
+            }
         }
+
+        private int time;
 
         private void UpdatePlayerView(Bundle data) {
             TextView tvPlayerTitle = ((TextView) findViewById(R.id.tvPlayerTitle));
@@ -162,9 +163,9 @@ public class MainActivity extends Activity implements ServiceConnection {
             String artistAlbum = data.getString("ARTIST") + " - " + data.getString("ALBUM");
             String albumImage = data.getString("ALBUM_IMAGE");
             Boolean isPlaying = data.getBoolean("PLAYING");
-            int btnSRC = isPlaying ? R.mipmap.button_pause : R.mipmap.button_play;
+            int btnSRC = isPlaying ? R.drawable.button_pause : R.drawable.button_play;
             int imageSRC = albumImage == null ? R.drawable.default_album_image : R.drawable.default_music_img;
-            int time = data.getInt("TIME");
+            time = data.getInt("TIME");
             int duration = data.getInt("DURATION");
 
 
@@ -177,6 +178,7 @@ public class MainActivity extends Activity implements ServiceConnection {
             }
             btnPlayerPlayPause.setImageResource(btnSRC);
             ivPlayerAlbumImage.setImageResource(imageSRC);
+
         }
     }
 
@@ -187,8 +189,12 @@ public class MainActivity extends Activity implements ServiceConnection {
         findViewById(R.id.btnPlayerPlayPause).setOnClickListener(new MyOnClickListener());
         findViewById(R.id.btnPlayerNext).setOnClickListener(new MyOnClickListener());
         findViewById(R.id.btnPlayerPrevious).setOnClickListener(new MyOnClickListener());
-        sbPlayerPogress = (SeekBar) findViewById(R.id.sbPlayerPogress);
+        SeekBar sbPlayerPogress = (SeekBar) findViewById(R.id.sbPlayerPogress);
         sbPlayerPogress.setOnSeekBarChangeListener(new MyOnSeekBarChangeListener());
+
+        lyricView = (LyricView) findViewById(R.id.lvPlayerLyricView);
+
+        currentLRC = new LRCUtils(root + "Music/Lyric/Craig David - 7 Days.lrc");
     }
 
     /**
@@ -204,12 +210,15 @@ public class MainActivity extends Activity implements ServiceConnection {
                         if (playerService.getIsPlaying()) {
                             playerService.pause();
                             ((ImageButton) findViewById(R.id.btnPlayerPlayPause))
-                                    .setImageResource(R.mipmap.button_play);
+                                    .setImageResource(R.drawable.button_play);
                         } else {
                             try {
                                 playerService.play();
                                 ((ImageButton) findViewById(R.id.btnPlayerPlayPause))
-                                        .setImageResource(R.mipmap.button_pause);
+                                        .setImageResource(R.drawable.button_pause);
+                                if(currentLRC == null) {//如果当前尚没有字幕，加载当前歌曲字幕
+                                    currentLRC = new LRCUtils(playerService.getCurrentMusic().lrcPath);
+                                }
                             } catch (Exception e) {
                                 System.out.println("播放出现错误!");
                             }
@@ -220,6 +229,7 @@ public class MainActivity extends Activity implements ServiceConnection {
                     if (playerService != null) {
                         try {
                             playerService.next();
+                            currentLRC = new LRCUtils(playerService.getCurrentMusic().lrcPath);
                         } catch (Exception e) {
                             System.out.println("下一首出现错误!");
                         }
@@ -229,6 +239,7 @@ public class MainActivity extends Activity implements ServiceConnection {
                     if (playerService != null) {
                         try {
                             playerService.previous();
+                            currentLRC = new LRCUtils(playerService.getCurrentMusic().lrcPath);
                         } catch (Exception e) {
                             System.out.println("上一首出现错误!");
                         }
@@ -274,7 +285,7 @@ public class MainActivity extends Activity implements ServiceConnection {
         }
     }
 
-    private static final String root = "/storage/emulated/0/"; //存储盘根目录
+    public static final String root = "/storage/emulated/0/"; //存储盘根目录
 
     /**
      * 测试方法
@@ -572,9 +583,4 @@ public class MainActivity extends Activity implements ServiceConnection {
 
         return str;
     }
-
-    private int TextToTime(String text) {
-        return 0;
-    }
-
 }

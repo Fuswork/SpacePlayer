@@ -48,9 +48,8 @@ public class PlayerService extends Service {
             mediaDecoder = new MediaDecoder();
             mediaDecoder.setOnCompletionListener(new mOnComplationListener());
         }
-//        currentList = playList.get(MainActivity.LOCALMUSIC);
         currentID = 0;
-        timer.scheduleAtFixedRate(timerTask, 0, 1000);
+        timer.scheduleAtFixedRate(timerTask, 0, 50);
         timerTask.run();
     }
 
@@ -66,27 +65,35 @@ public class PlayerService extends Service {
      */
     Timer timer = new Timer();
     TimerTask timerTask = new TimerTask() {
+        private int count = 0;
         @Override
         public void run() {
             if (mainHandler != null && currentList != null) {
                 Message msg = new Message();
-                Bundle data = new Bundle();
+                count = (count+1)%20;
+                if(count == 0) {
 
-                Music music = currentList.elementAt(currentID);
-                data.putString("TITLE", music.title);
-                data.putString("ARTIST", music.artist);
-                data.putString("ALBUM", music.album);
-                data.putString("ALBUM_IMAGE", music.albumImage);
-                int time = 0;
-                if (!isIdle) {
-                    time = mediaDecoder.getCurrentPosition();
+                    Bundle data = new Bundle();
+
+                    Music music = currentList.elementAt(currentID);
+                    data.putString("TITLE", music.title);
+                    data.putString("ARTIST", music.artist);
+                    data.putString("ALBUM", music.album);
+                    data.putString("ALBUM_IMAGE", music.albumImage);
+                    int time = 0;
+                    if (!isIdle) {
+                        time = mediaDecoder.getCurrentPosition();
+                    }
+                    data.putInt("TIME", time);
+                    data.putInt("DURATION", music.duration);
+                    data.putBoolean("PLAYING", isPlaying);
+
+                    msg.what = 1;
+                    msg.setData(data);
                 }
-                data.putInt("TIME", time);
-                data.putInt("DURATION", music.duration);
-                data.putBoolean("PLAYING", isPlaying);
-
-                msg.what = 1;
-                msg.setData(data);
+                else{
+                    msg.what = 2;
+                }
                 mainHandler.sendMessage(msg);
             }
         }
@@ -96,7 +103,7 @@ public class PlayerService extends Service {
     private Map<String, Vector<Music>> playList;//播放列表
 
     private Vector<Music> currentList = null;//当前播放列表
-    private int currentID;//当前播放歌曲ID
+    private int currentID = 0;//当前播放歌曲ID
     /**
      * Idle 为 new 或 reset 后的初始状态
      * End 为 release 后的结束状态
@@ -111,6 +118,11 @@ public class PlayerService extends Service {
 
     public void setCurrentList(Vector<Music> currentList) {
         this.currentList = currentList;
+    }
+
+    public Music getCurrentMusic(){
+        if(currentList == null) return null;
+        return currentList.get(currentID);
     }
 
     /**
@@ -169,6 +181,7 @@ public class PlayerService extends Service {
             isIdle = true;
         }
         currentID = (int) (Math.random() * Integer.MAX_VALUE) % currentList.size();
+//        currentID++;
         play();
     }
 
@@ -182,6 +195,7 @@ public class PlayerService extends Service {
             isIdle = true;
         }
         currentID = (int) (Math.random() * Integer.MAX_VALUE) % currentList.size();
+//        currentID--;
         play();
     }
 
