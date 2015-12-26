@@ -12,8 +12,13 @@ import android.widget.Toast;
  * 系统广播通知监视，检测手机摇晃、按键等
  */
 public class WatchReceiver extends BroadcastReceiver {
+	private static Toast toast;
 
 	public void onReceive(Context context, Intent intent) {
-		Toast.makeText(context, intent.getStringExtra("type"), Toast.LENGTH_SHORT).show();
+		if (toast != null) toast.cancel();
+		toast = Toast.makeText(context,
+				intent.getAction() + intent.getStringExtra("key") + intent.getDataString()
+				, Toast.LENGTH_SHORT);
+		toast.show();
 	}
 }

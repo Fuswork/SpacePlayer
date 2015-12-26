@@ -126,7 +126,7 @@ public class MainActivity extends Activity implements ServiceConnection {
 //            }
 //        });
         System.out.println("开始测试!");
-        myTest();
+//        myTest();
         playerService.setCurrentList(playList.get(LOCALMUSIC));
         System.out.println("*************************");
         System.out.println("******** 测试结束 ********");
@@ -162,7 +162,7 @@ public class MainActivity extends Activity implements ServiceConnection {
             String artistAlbum = data.getString("ARTIST") + " - " + data.getString("ALBUM");
             String albumImage = data.getString("ALBUM_IMAGE");
             Boolean isPlaying = data.getBoolean("PLAYING");
-            int btnSRC = isPlaying ? R.mipmap.button_pause : R.mipmap.button_play;
+            int btnSRC = isPlaying ? R.drawable.button_pause : R.drawable.button_play;
             int imageSRC = albumImage == null ? R.drawable.default_album_image : R.drawable.default_music_img;
             int time = data.getInt("TIME");
             int duration = data.getInt("DURATION");
@@ -204,12 +204,12 @@ public class MainActivity extends Activity implements ServiceConnection {
                         if (playerService.getIsPlaying()) {
                             playerService.pause();
                             ((ImageButton) findViewById(R.id.btnPlayerPlayPause))
-                                    .setImageResource(R.mipmap.button_play);
+                                    .setImageResource(R.drawable.button_play);
                         } else {
                             try {
                                 playerService.play();
                                 ((ImageButton) findViewById(R.id.btnPlayerPlayPause))
-                                        .setImageResource(R.mipmap.button_pause);
+                                        .setImageResource(R.drawable.button_pause);
                             } catch (Exception e) {
                                 System.out.println("播放出现错误!");
                             }

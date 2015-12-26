@@ -58,12 +58,13 @@
 			android:singleLine="true"
 			android:text="@string/loading"/>
 
-	<SeekBar
+	<ProgressBar
+			style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Horizontal"
 			android:id="@+id/ntf_sbar"
 			android:layout_toEndOf="@id/ntf_iv_icon"
 			android:layout_below="@id/ntf_tv_musicArtist"
 	        android:layout_width="match_parent"
-	        android:layout_height="3dp"
+	        android:layout_height="10dp"
 	        />
 
 	<ImageButton
@@ -92,7 +93,7 @@
 
 				android:background="@drawable/btn_background"
 				android:scaleType="fitCenter"
-				android:src="@drawable/default_btn"/>
+				android:src="@drawable/button_play"/>
 
 		<ImageButton
 				android:id="@+id/ntf_ibtn_previous"
@@ -102,7 +103,7 @@
 
 				android:background="@drawable/btn_background"
 				android:scaleType="fitCenter"
-				android:src="@drawable/default_btn"/>
+				android:src="@drawable/button_next"/>
 
 		<ImageButton
 				android:id="@+id/ntf_ibtn_pause"
@@ -112,7 +113,7 @@
 
 				android:background="@drawable/btn_background"
 				android:scaleType="fitCenter"
-				android:src="@drawable/default_btn"/>
+				android:src="@drawable/button_pause"/>
 
 		<ImageButton
 				android:id="@+id/ntf_ibtn_next"
@@ -122,7 +123,7 @@
 
 				android:background="@drawable/btn_background"
 				android:scaleType="fitCenter"
-				android:src="@drawable/default_btn"/>
+				android:src="@drawable/button_next_1"/>
 
 
 	</LinearLayout>

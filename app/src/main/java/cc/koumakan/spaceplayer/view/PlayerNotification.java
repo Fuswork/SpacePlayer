@@ -41,22 +41,22 @@ public class PlayerNotification {
 		notification.bigContentView = new RemoteViews(context.getPackageName(), R.layout.notification_big);
 		//添加按钮监听
 		notification.bigContentView.setOnClickPendingIntent(R.id.ntf_ibtn_pause,
-				PendingIntent.getBroadcast(context, 0, new Intent("cc.koumakan.spaceplayer.BROADCAST").putExtra("type", "pause"),
+				PendingIntent.getBroadcast(context, 0, new Intent("cc.koumakan.spaceplayer.BROADCAST").putExtra("key","pause"),
 						PendingIntent.FLAG_UPDATE_CURRENT));
 		notification.bigContentView.setOnClickPendingIntent(R.id.ntf_ibtn_next,
-				PendingIntent.getBroadcast(context, 0, new Intent("cc.koumakan.spaceplayer.BROADCAST").putExtra("type", "next"),
+				PendingIntent.getBroadcast(context, 0, new Intent("cc.koumakan.spaceplayer.BROADCAST").putExtra("key","next"),
 						PendingIntent.FLAG_UPDATE_CURRENT));
 		notification.bigContentView.setOnClickPendingIntent(R.id.ntf_ibtn_quit,
-				PendingIntent.getBroadcast(context, 0, new Intent("cc.koumakan.spaceplayer.BROADCAST").putExtra("type", "quit"),
+				PendingIntent.getBroadcast(context, 0, new Intent("cc.koumakan.spaceplayer.BROADCAST").putExtra("key","quit"),
 						PendingIntent.FLAG_UPDATE_CURRENT));
 		notification.contentView.setOnClickPendingIntent(R.id.ntf_ibtn_pause,
-				PendingIntent.getBroadcast(context, 0, new Intent("cc.koumakan.spaceplayer.BROADCAST").putExtra("type", "pause"),
+				PendingIntent.getBroadcast(context, 0, new Intent("LOCAL_PAUSE"),
 						PendingIntent.FLAG_UPDATE_CURRENT));
 		notification.contentView.setOnClickPendingIntent(R.id.ntf_ibtn_next,
-				PendingIntent.getBroadcast(context, 0, new Intent("cc.koumakan.spaceplayer.BROADCAST").putExtra("type", "next"),
+				PendingIntent.getBroadcast(context, 0, new Intent("LOCAL_NEXT"),
 						PendingIntent.FLAG_UPDATE_CURRENT));
 		notification.contentView.setOnClickPendingIntent(R.id.ntf_ibtn_quit,
-				PendingIntent.getBroadcast(context, 0, new Intent("cc.koumakan.spaceplayer.BROADCAST").putExtra("type", "quit"),
+				PendingIntent.getBroadcast(context, 0, new Intent("LOCAL_QUIT"),
 						PendingIntent.FLAG_UPDATE_CURRENT));
 		notificationManager.notify(0, notification);
 	}

@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
 		xmlns:android="http://schemas.android.com/apk/res/android"
+		android:paddingTop="25dp"
 		android:layout_width="match_parent"
-		android:layout_height="match_parent">
+		android:layout_height="match_parent"
+		android:background="#FF212121">
 
 	<LinearLayout
 			android:id="@+id/main_top"
@@ -45,22 +47,51 @@
 			android:layout_below="@id/main_top"
 			android:layout_above="@id/main_bottom"
 			android:layout_width="match_parent"
-			android:layout_height="40dp"
+			android:layout_height="match_parent"
 			android:paddingLeft="20dp"
 			android:paddingRight="20dp"
 			android:orientation="vertical">
 
 		<ImageButton
+				android:id="@+id/main_list_ibtn_playlist"
 				android:layout_width="match_parent"
 				android:layout_height="40dp"/>
+		<ScrollView
+				android:id="@+id/main_list_sv_playlist"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content">
+		</ScrollView>
 
 		<ImageButton
+				android:id="@+id/main_list_ibtn_album"
 				android:layout_width="match_parent"
 				android:layout_height="40dp"/>
+		<ScrollView
+				android:id="@+id/main_list_sv_album"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content">
+		</ScrollView>
 
 		<ImageButton
+				android:id="@+id/main_list_ibtn_artist"
 				android:layout_width="match_parent"
 				android:layout_height="40dp"/>
+		<ScrollView
+				android:id="@+id/main_list_sv_artist"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content">
+		</ScrollView>
+
+		<ImageButton
+				android:id="@+id/main_list__ibtn_style"
+				android:layout_width="match_parent"
+				android:layout_height="40dp"/>
+		<ScrollView
+				android:id="@+id/main_list__sv_style"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content">
+		</ScrollView>
+
 
 	</LinearLayout>
 
