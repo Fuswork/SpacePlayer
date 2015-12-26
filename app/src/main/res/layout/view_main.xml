@@ -6,29 +6,32 @@
 		android:layout_height="match_parent"
 		android:background="#FF212121">
 
-	<LinearLayout
+	<RelativeLayout
 			android:id="@+id/main_top"
 			android:layout_width="match_parent"
-			android:layout_height="60dp">
+			android:layout_height="64dp">
 
 		<ImageButton
 				android:id="@+id/main_top_icon"
-				android:layout_width="60dp"
-				android:layout_height="60dp"
+				android:layout_width="64dp"
+				android:layout_height="64dp"
 				android:background="@drawable/btn_background"
 				android:src="@mipmap/ic_launcher"/>
 
-		<ImageButton
-				android:layout_gravity="center"
-				android:layout_width="40dp"
-				android:layout_height="40dp"/>
 
 		<ImageButton
-				android:layout_gravity="center"
-				android:layout_width="40dp"
-				android:layout_height="40dp"/>
+				android:id="@+id/main_top_first"
+				android:layout_toEndOf="@id/main_top_icon"
+				android:layout_width="64dp"
+				android:layout_height="64dp"/>
 
-	</LinearLayout>
+		<ImageButton
+				android:id="@+id/main_top_setting"
+				android:layout_alignParentEnd="true"
+				android:layout_width="64dp"
+				android:layout_height="64dp"/>
+
+	</RelativeLayout>
 
 	<ViewFlipper
 			android:id="@+id/main_bottom"

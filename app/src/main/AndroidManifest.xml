@@ -28,15 +28,6 @@
 
 		<service android:name=".service.PlayerService"/>
 
-		<receiver android:name=".util.WatchReceiver">
-			<intent-filter>
-				<action android:name="cc.koumakan.spaceplayer.BROADCAST"/>
-				<action android:name="LOCAL_QUIT"/>
-				<action android:name="LOCAL_NEXT"/>
-				<action android:name="LOCAL_PAUSE"/>
-			</intent-filter>
-		</receiver>
-
 	</application>
 
 </manifest>
