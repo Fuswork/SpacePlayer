@@ -1,32 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
 		xmlns:android="http://schemas.android.com/apk/res/android"
+		android:paddingTop="25dp"
 		android:layout_width="match_parent"
-		android:layout_height="match_parent">
+		android:layout_height="match_parent"
+		android:background="#FF212121">
 
-	<LinearLayout
+	<RelativeLayout
 			android:id="@+id/main_top"
 			android:layout_width="match_parent"
-			android:layout_height="60dp">
+			android:layout_height="64dp">
 
 		<ImageButton
 				android:id="@+id/main_top_icon"
-				android:layout_width="60dp"
-				android:layout_height="60dp"
+				android:layout_width="64dp"
+				android:layout_height="64dp"
 				android:background="@drawable/btn_background"
 				android:src="@mipmap/ic_launcher"/>
 
-		<ImageButton
-				android:layout_gravity="center"
-				android:layout_width="40dp"
-				android:layout_height="40dp"/>
 
 		<ImageButton
-				android:layout_gravity="center"
-				android:layout_width="40dp"
-				android:layout_height="40dp"/>
+				android:id="@+id/main_top_first"
+				android:layout_toEndOf="@id/main_top_icon"
+				android:layout_width="64dp"
+				android:layout_height="64dp"/>
 
-	</LinearLayout>
+		<ImageButton
+				android:id="@+id/main_top_setting"
+				android:layout_alignParentEnd="true"
+				android:layout_width="64dp"
+				android:layout_height="64dp"/>
+
+	</RelativeLayout>
 
 	<ViewFlipper
 			android:id="@+id/main_bottom"
@@ -45,22 +50,51 @@
 			android:layout_below="@id/main_top"
 			android:layout_above="@id/main_bottom"
 			android:layout_width="match_parent"
-			android:layout_height="40dp"
+			android:layout_height="match_parent"
 			android:paddingLeft="20dp"
 			android:paddingRight="20dp"
 			android:orientation="vertical">
 
 		<ImageButton
+				android:id="@+id/main_list_ibtn_playlist"
 				android:layout_width="match_parent"
 				android:layout_height="40dp"/>
+		<ScrollView
+				android:id="@+id/main_list_sv_playlist"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content">
+		</ScrollView>
 
 		<ImageButton
+				android:id="@+id/main_list_ibtn_album"
 				android:layout_width="match_parent"
 				android:layout_height="40dp"/>
+		<ScrollView
+				android:id="@+id/main_list_sv_album"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content">
+		</ScrollView>
 
 		<ImageButton
+				android:id="@+id/main_list_ibtn_artist"
 				android:layout_width="match_parent"
 				android:layout_height="40dp"/>
+		<ScrollView
+				android:id="@+id/main_list_sv_artist"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content">
+		</ScrollView>
+
+		<ImageButton
+				android:id="@+id/main_list__ibtn_style"
+				android:layout_width="match_parent"
+				android:layout_height="40dp"/>
+		<ScrollView
+				android:id="@+id/main_list__sv_style"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content">
+		</ScrollView>
+
 
 	</LinearLayout>
 

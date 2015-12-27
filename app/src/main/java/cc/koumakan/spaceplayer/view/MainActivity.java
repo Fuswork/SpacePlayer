@@ -120,7 +120,7 @@ public class MainActivity extends Activity implements ServiceConnection {
         playerService.setMainHandler(myHandler);
         System.out.println("服务绑定!");
         System.out.println("开始测试!");
-        myTest();
+//        myTest();
         playerService.setCurrentList(playList.get(LOCALMUSIC));
         System.out.println("*************************");
         System.out.println("******** 测试结束 ********");
@@ -142,11 +142,11 @@ public class MainActivity extends Activity implements ServiceConnection {
             if (msg.what == 1) {//刷新播放界面各控件
                 UpdatePlayerView(msg.getData());
             }
-            else if(msg.what == 2){//刷新歌词显示
-                String[] lrcLines;
-                lrcLines = currentLRC.getLRCLines(time, LyricView.LINE_COUNT);
-                lyricView.setLRCLines(lrcLines);
-            }
+//            else if(msg.what == 2){//刷新歌词显示
+//                String[] lrcLines;
+//                lrcLines = currentLRC.getLRCLines(time, LyricView.LINE_COUNT);
+//                lyricView.setLRCLines(lrcLines);
+//            }
         }
 
         private int time;

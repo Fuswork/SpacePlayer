@@ -38,25 +38,31 @@ public class PlayerNotification {
 				.setAutoCancel(false)
 				.setOngoing(true)
 				.build();
-//		notification.bigContentView = new RemoteViews(context.getPackageName(), R.layout.notification_big);
+		notification.bigContentView = new RemoteViews(context.getPackageName(), R.layout.notification_big);
 		//添加按钮监听
-//		notification.bigContentView.setOnClickPendingIntent(R.id.ntf_ibtn_pause,
-//				PendingIntent.getBroadcast(context, 0, new Intent("cc.koumakan.spaceplayer.BROADCAST").putExtra("type", "pause"),
-//						PendingIntent.FLAG_UPDATE_CURRENT));
-//		notification.bigContentView.setOnClickPendingIntent(R.id.ntf_ibtn_next,
-//				PendingIntent.getBroadcast(context, 0, new Intent("cc.koumakan.spaceplayer.BROADCAST").putExtra("type", "next"),
-//						PendingIntent.FLAG_UPDATE_CURRENT));
-//		notification.bigContentView.setOnClickPendingIntent(R.id.ntf_ibtn_quit,
-//				PendingIntent.getBroadcast(context, 0, new Intent("cc.koumakan.spaceplayer.BROADCAST").putExtra("type", "quit"),
-//						PendingIntent.FLAG_UPDATE_CURRENT));
+		notification.bigContentView.setOnClickPendingIntent(R.id.ntf_ibtn_previous,
+				PendingIntent.getBroadcast(context, 0, new Intent("LOCAL_PREVIOUS"),
+						PendingIntent.FLAG_UPDATE_CURRENT));
+		notification.bigContentView.setOnClickPendingIntent(R.id.ntf_ibtn_loop,
+				PendingIntent.getBroadcast(context, 0, new Intent("LOCAL_LOOP"),
+						PendingIntent.FLAG_UPDATE_CURRENT));
+		notification.bigContentView.setOnClickPendingIntent(R.id.ntf_ibtn_pause,
+				PendingIntent.getBroadcast(context, 0, new Intent("LOCAL_TOGGLE"),
+						PendingIntent.FLAG_UPDATE_CURRENT));
+		notification.bigContentView.setOnClickPendingIntent(R.id.ntf_ibtn_next,
+				PendingIntent.getBroadcast(context, 0, new Intent("LOCAL_NEXT"),
+						PendingIntent.FLAG_UPDATE_CURRENT));
+		notification.bigContentView.setOnClickPendingIntent(R.id.ntf_ibtn_quit,
+				PendingIntent.getBroadcast(context, 0, new Intent("LOCAL_QUIT"),
+						PendingIntent.FLAG_UPDATE_CURRENT));
 		notification.contentView.setOnClickPendingIntent(R.id.ntf_ibtn_pause,
-				PendingIntent.getBroadcast(context, 0, new Intent("cc.koumakan.spaceplayer.BROADCAST").putExtra("type", "pause"),
+				PendingIntent.getBroadcast(context, 0, new Intent("LOCAL_TOGGLE"),
 						PendingIntent.FLAG_UPDATE_CURRENT));
 		notification.contentView.setOnClickPendingIntent(R.id.ntf_ibtn_next,
-				PendingIntent.getBroadcast(context, 0, new Intent("cc.koumakan.spaceplayer.BROADCAST").putExtra("type", "next"),
+				PendingIntent.getBroadcast(context, 0, new Intent("LOCAL_NEXT"),
 						PendingIntent.FLAG_UPDATE_CURRENT));
 		notification.contentView.setOnClickPendingIntent(R.id.ntf_ibtn_quit,
-				PendingIntent.getBroadcast(context, 0, new Intent("cc.koumakan.spaceplayer.BROADCAST").putExtra("type", "quit"),
+				PendingIntent.getBroadcast(context, 0, new Intent("LOCAL_QUIT"),
 						PendingIntent.FLAG_UPDATE_CURRENT));
 		notificationManager.notify(0, notification);
 	}
@@ -74,22 +80,25 @@ public class PlayerNotification {
 	/**
 	 * 更新通知栏
 	 *
-	 * @param ic     图片的资源id
+	 * @param ic     Album的资源id
 	 * @param name   显示的歌曲名字
 	 * @param album  显示的歌曲专辑
 	 * @param artist 显示的歌曲艺术家
 	 */
-	public void refresh(int ic, String name, String album, String artist) {
+	public void refresh(int ic, int play_ic, int loop_ic, String name, String album, String artist) {
 		RemoteViews remoteView = notification.contentView;
 		if (0 != ic) remoteView.setImageViewResource(R.id.ntf_iv_icon, ic);
+		if (0 != play_ic) remoteView.setImageViewResource(R.id.ntf_ibtn_pause, play_ic);
 		if (null != name) remoteView.setTextViewText(R.id.ntf_tv_musicName, name);
 		if (null != album) remoteView.setTextViewText(R.id.ntf_tv_musicAlbum, album);
 		if (null != artist) remoteView.setTextViewText(R.id.ntf_tv_musicArtist, artist);
-//		remoteView = notification.bigContentView;
-//		if (0 != ic) remoteView.setImageViewResource(R.id.ntf_iv_icon, ic);
-//		if (null != name) remoteView.setTextViewText(R.id.ntf_tv_musicName, name);
-//		if (null != album) remoteView.setTextViewText(R.id.ntf_tv_musicAlbum, album);
-//		if (null != artist) remoteView.setTextViewText(R.id.ntf_tv_musicArtist, artist);
+		remoteView = notification.bigContentView;
+		if (0 != ic) remoteView.setImageViewResource(R.id.ntf_iv_icon, ic);
+		if (0 != play_ic) remoteView.setImageViewResource(R.id.ntf_ibtn_pause, play_ic);
+		if (0 != loop_ic) remoteView.setImageViewResource(R.id.ntf_ibtn_loop, loop_ic);
+		if (null != name) remoteView.setTextViewText(R.id.ntf_tv_musicName, name);
+		if (null != album) remoteView.setTextViewText(R.id.ntf_tv_musicAlbum, album);
+		if (null != artist) remoteView.setTextViewText(R.id.ntf_tv_musicArtist, artist);
 		notificationManager.notify(0, notification);
 	}
 
