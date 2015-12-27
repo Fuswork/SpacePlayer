@@ -30,10 +30,10 @@ public class LRCUtils {
             byte[] buffer = new byte[lenth];
             lenth = fileInputStream.read(buffer);
             String str = new String(buffer, "UTF-8");
-            System.out.println("读取歌词成功： "+str);
-            System.out.println("开始分析歌词");
+//            System.out.println("读取歌词成功： "+str);
+//            System.out.println("开始分析歌词");
             AnalyzeLRC(str);
-            System.out.println("歌词分析完成");
+//            System.out.println("歌词分析完成");
             if(lrcList.size() > 0) {
                 Collections.sort(lrcList, new Comparator<LRCElement>() {
                     @Override
@@ -51,7 +51,7 @@ public class LRCUtils {
                 });
             }
         }catch (Exception e){
-            System.out.println("读取歌词失败！");
+            System.out.println("读取歌词失败！ 歌词行数： "+lrcList.size());
         }
     }
 
@@ -60,7 +60,6 @@ public class LRCUtils {
         String[] strLines = LRCText.split("\n");
         /**对每一行进行处理**/
         for(String strLine : strLines){
-//            System.out.println("@正在处理: "+strLine);
             /** 循环处理标签 **/
             while(strLine.contains("]") && strLine.contains("[")){
 
@@ -69,7 +68,6 @@ public class LRCUtils {
                 /** 标签内容 **/
                 String tagStr = strLine.substring(lSign+1, rSign);
                 strLine = strLine.substring(rSign+1);
-//                System.out.println("标签内容： "+tagStr);
                 int fsSign = tagStr.indexOf(':');
                 int stSign = tagStr.indexOf('.');
 

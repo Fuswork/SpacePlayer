@@ -9,12 +9,14 @@
 	<!-- ToolBar -->
 	<string name="text">测试文字</string>
 	<string name="time">00:00</string>
-	<!-- /ToolBar -->
-	<!-- /MainView -->
-
-	<!-- PlayView -->
-	<!-- /PlayView -->
-
-	<!-- Global -->
-	<!-- /Global -->
+	<string name="current_list">当前列表</string>
+	<string name="min_equalizer">-15 dB</string>
+	<string name="max_equalizer">15 dB</string>
+	<string-array name="band_array">
+		<item>60Hz</item>
+		<item>230Hz</item>
+		<item>910Hz</item>
+		<item>3600Hz</item>
+		<item>14000Hz</item>
+	</string-array>
 </resources>

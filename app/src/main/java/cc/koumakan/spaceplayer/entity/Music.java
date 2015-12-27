@@ -29,6 +29,8 @@ public class Music {
 
     public String lrcPath = null;
 
+    public Boolean isFavorite;
+
     public Music(String s) {
         String[] tmp = s.split("\t");
 //        id = tmp[0];
@@ -48,6 +50,7 @@ public class Music {
         this.duration = duration;
         this.size = size;
         this.lrcPath = MainActivity.root+"Music/Lyric/"+this.artist+" - "+this.title+".lrc";
+        this.isFavorite = false;
     }
 
     @Override

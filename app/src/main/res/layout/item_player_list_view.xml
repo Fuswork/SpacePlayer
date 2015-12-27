@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:id="@+id/rlPlayerListItem"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#00000000">
+
+    <TextView
+        android:id="@+id/tvPlayerListItemID"
+        android:layout_width="70dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:gravity="center"
+        android:text="100"
+        android:textSize="30sp"
+        android:textColor="#FFFFFF"/>
+
+    <TextView
+        android:id="@+id/tvPlayerListItemTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/tvPlayerListItemID"
+        android:layout_alignTop="@+id/tvPlayerListItemID"
+        android:layout_marginStart="5dp"
+        android:text="@string/text"
+        android:textSize="25sp"
+        android:textColor="#FFFFFF"
+
+        android:ellipsize="marquee"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:singleLine="true"/>
+
+    <TextView
+        android:id="@+id/tvPlayerListItemInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvPlayerListItemTitle"
+        android:layout_marginTop="5dp"
+        android:layout_alignStart="@+id/tvPlayerListItemTitle"
+        android:text="@string/text"
+        android:textSize="20sp"
+        android:textColor="#FFFFFF"
+
+        android:ellipsize="marquee"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:singleLine="true"/>
+
+</RelativeLayout>

@@ -5,20 +5,32 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.media.audiofx.Equalizer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.view.GestureDetector;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ViewFlipper;
 
+import org.w3c.dom.Text;
+
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Vector;
@@ -28,6 +40,8 @@ import cc.koumakan.spaceplayer.R;
 import cc.koumakan.spaceplayer.entity.LRCUtils;
 import cc.koumakan.spaceplayer.entity.LyricView;
 import cc.koumakan.spaceplayer.entity.Music;
+import cc.koumakan.spaceplayer.entity.VerticalSeekBar;
+import cc.koumakan.spaceplayer.entity.WaveFormView;
 import cc.koumakan.spaceplayer.service.PlayerService;
 import cc.koumakan.spaceplayer.util.MusicSearcher;
 
@@ -38,11 +52,20 @@ public class MainActivity extends Activity implements ServiceConnection {
 
     private LyricView lyricView;
     private LRCUtils currentLRC = null;
+    private ImageButton btnPlayerModel;
+    private ImageButton btnPlayerAddToFavorite;
+    private ImageButton btnPlayerShowList;
+    private RelativeLayout rlPlayerList;
+    private ListView lvPlayerList;
+    private SimpleAdapter listAdapter;
+    private VerticalSeekBar[] sbEqualizer = null;
 
     private PlayerService playerService = null;
     private MyHandler myHandler;
     private ViewFlipper pViewFlipper;
     private GestureDetector pGestureDetector;
+    private int currentID = 0;
+    private Equalizer equalizer = null;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -56,6 +79,7 @@ public class MainActivity extends Activity implements ServiceConnection {
         bindService(new Intent(this, PlayerService.class), this, Context.BIND_AUTO_CREATE);
 
         pViewFlipper = ((ViewFlipper) findViewById(R.id.vfPlayer));
+        pViewFlipper.showNext();
         pViewFlipper.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -120,8 +144,28 @@ public class MainActivity extends Activity implements ServiceConnection {
         playerService.setMainHandler(myHandler);
         System.out.println("服务绑定!");
         System.out.println("开始测试!");
-//        myTest();
+        myTest();
         playerService.setCurrentList(playList.get(LOCALMUSIC));
+        currentLRC = new LRCUtils(playerService.getCurrentMusic().lrcPath);
+        btnPlayerAddToFavorite.setImageResource(playerService.getCurrentMusic().isFavorite
+                ? R.mipmap.button_add_to_favorite_fill
+                : R.mipmap.button_add_to_favorite_null);
+        playerService.renewList();
+        listAdapter = new SimpleAdapter(MainActivity.this, playerService.getList(), R.layout.item_player_list_view,
+                new String[]{"ID", "TITLE", "INFO"},
+                new int[]{R.id.tvPlayerListItemID, R.id.tvPlayerListItemTitle, R.id.tvPlayerListItemInfo});
+        lvPlayerList.setAdapter(listAdapter);
+
+        playerService.setWaveFormView((WaveFormView) findViewById(R.id.wfPlayerWaveform));
+
+        equalizer = playerService.getEqualizer();
+
+        if (sbEqualizer != null) {
+            for (short i = 0; i < 5; i++) {
+                sbEqualizer[i].setProgress(15);
+            }
+        }
+
         System.out.println("*************************");
         System.out.println("******** 测试结束 ********");
         System.out.println("*************************");
@@ -141,12 +185,14 @@ public class MainActivity extends Activity implements ServiceConnection {
             super.handleMessage(msg);
             if (msg.what == 1) {//刷新播放界面各控件
                 UpdatePlayerView(msg.getData());
+                String[] lrcLines;
+                lrcLines = currentLRC.getLRCLines(time, LyricView.LINE_COUNT);
+                lyricView.setLRCLines(lrcLines);
+            } else if (msg.what == 2) {//刷新歌词显示
+                String[] lrcLines;
+                lrcLines = currentLRC.getLRCLines(time, LyricView.LINE_COUNT);
+                lyricView.setLRCLines(lrcLines);
             }
-//            else if(msg.what == 2){//刷新歌词显示
-//                String[] lrcLines;
-//                lrcLines = currentLRC.getLRCLines(time, LyricView.LINE_COUNT);
-//                lyricView.setLRCLines(lrcLines);
-//            }
         }
 
         private int time;
@@ -167,6 +213,12 @@ public class MainActivity extends Activity implements ServiceConnection {
             int imageSRC = albumImage == null ? R.drawable.default_album_image : R.drawable.default_music_img;
             time = data.getInt("TIME");
             int duration = data.getInt("DURATION");
+            int id = data.getInt("CURRENT_ID");
+            if (id != currentID) {
+                currentID = id;
+                if (playerService != null)
+                    currentLRC = new LRCUtils(playerService.getCurrentMusic().lrcPath);
+            }
 
 
             tvPlayerTitle.setText(data.getString("TITLE"));
@@ -186,15 +238,65 @@ public class MainActivity extends Activity implements ServiceConnection {
      * 为控件添加监听
      */
     private void initView() {
-        findViewById(R.id.btnPlayerPlayPause).setOnClickListener(new MyOnClickListener());
-        findViewById(R.id.btnPlayerNext).setOnClickListener(new MyOnClickListener());
-        findViewById(R.id.btnPlayerPrevious).setOnClickListener(new MyOnClickListener());
+
+        MyOnClickListener mOnClickListener = new MyOnClickListener();
+        MyOnSeekBarChangeListener mOnSeekBarChangeListener = new MyOnSeekBarChangeListener();
+
+        findViewById(R.id.btnPlayerPlayPause).setOnClickListener(mOnClickListener);
+        findViewById(R.id.btnPlayerNext).setOnClickListener(mOnClickListener);
+        findViewById(R.id.btnPlayerPrevious).setOnClickListener(mOnClickListener);
+        btnPlayerModel = (ImageButton) findViewById(R.id.btnPlayerModel);
+        btnPlayerModel.setOnClickListener(mOnClickListener);
+        btnPlayerAddToFavorite = ((ImageButton) findViewById(R.id.btnPlayerAddToFavorite));
+        btnPlayerAddToFavorite.setOnClickListener(mOnClickListener);
+
         SeekBar sbPlayerPogress = (SeekBar) findViewById(R.id.sbPlayerPogress);
-        sbPlayerPogress.setOnSeekBarChangeListener(new MyOnSeekBarChangeListener());
+        sbPlayerPogress.setOnSeekBarChangeListener(mOnSeekBarChangeListener);
 
         lyricView = (LyricView) findViewById(R.id.lvPlayerLyricView);
+        lvPlayerList = ((ListView) findViewById(R.id.lvPlayerList));
+        lvPlayerList.setOnItemClickListener(new MyOnItemClickListener());
 
-        currentLRC = new LRCUtils(root + "Music/Lyric/Craig David - 7 Days.lrc");
+        btnPlayerShowList = ((ImageButton) findViewById(R.id.btnPlayerShowList));
+        btnPlayerShowList.setOnClickListener(mOnClickListener);
+
+        rlPlayerList = (RelativeLayout) findViewById(R.id.rlPlayerList);
+
+        sbEqualizer = new VerticalSeekBar[5];
+
+        sbEqualizer[0] = (VerticalSeekBar) findViewById(R.id.rlPlayerEqualizerView1).findViewById(R.id.sbPlayerEqualizerValue);
+        sbEqualizer[1] = (VerticalSeekBar) findViewById(R.id.rlPlayerEqualizerView2).findViewById(R.id.sbPlayerEqualizerValue);
+        sbEqualizer[2] = (VerticalSeekBar) findViewById(R.id.rlPlayerEqualizerView3).findViewById(R.id.sbPlayerEqualizerValue);
+        sbEqualizer[3] = (VerticalSeekBar) findViewById(R.id.rlPlayerEqualizerView4).findViewById(R.id.sbPlayerEqualizerValue);
+        sbEqualizer[4] = (VerticalSeekBar) findViewById(R.id.rlPlayerEqualizerView5).findViewById(R.id.sbPlayerEqualizerValue);
+
+        sbEqualizer[0].setOnSeekBarChangeListener(mOnSeekBarChangeListener);
+        sbEqualizer[1].setOnSeekBarChangeListener(mOnSeekBarChangeListener);
+        sbEqualizer[2].setOnSeekBarChangeListener(mOnSeekBarChangeListener);
+        sbEqualizer[3].setOnSeekBarChangeListener(mOnSeekBarChangeListener);
+        sbEqualizer[4].setOnSeekBarChangeListener(mOnSeekBarChangeListener);
+
+        String bends[] = getResources().getStringArray(R.array.band_array);
+
+        ((TextView) findViewById(R.id.rlPlayerEqualizerView1).findViewById(R.id.tvPlayerEqualizerBand)).setText(bends[0]);
+        ((TextView) findViewById(R.id.rlPlayerEqualizerView2).findViewById(R.id.tvPlayerEqualizerBand)).setText(bends[1]);
+        ((TextView) findViewById(R.id.rlPlayerEqualizerView3).findViewById(R.id.tvPlayerEqualizerBand)).setText(bends[2]);
+        ((TextView) findViewById(R.id.rlPlayerEqualizerView4).findViewById(R.id.tvPlayerEqualizerBand)).setText(bends[3]);
+        ((TextView) findViewById(R.id.rlPlayerEqualizerView5).findViewById(R.id.tvPlayerEqualizerBand)).setText(bends[4]);
+    }
+
+    private class MyOnItemClickListener implements AdapterView.OnItemClickListener {
+
+        @Override
+        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+            try {
+                playerService.skip(i);
+            } catch (Exception e) {
+                System.out.println("尝试跳转失败！");
+            }
+            rlPlayerList.setVisibility(RelativeLayout.INVISIBLE);
+            btnPlayerShowList.setImageResource(R.mipmap.button_show_list_white);
+        }
     }
 
     /**
@@ -205,7 +307,7 @@ public class MainActivity extends Activity implements ServiceConnection {
         @Override
         public void onClick(View view) {
             switch (view.getId()) {
-                case R.id.btnPlayerPlayPause:
+                case R.id.btnPlayerPlayPause://播放、暂停
                     if (playerService != null) {
                         if (playerService.getIsPlaying()) {
                             playerService.pause();
@@ -216,33 +318,87 @@ public class MainActivity extends Activity implements ServiceConnection {
                                 playerService.play();
                                 ((ImageButton) findViewById(R.id.btnPlayerPlayPause))
                                         .setImageResource(R.drawable.button_pause);
-                                if(currentLRC == null) {//如果当前尚没有字幕，加载当前歌曲字幕
-                                    currentLRC = new LRCUtils(playerService.getCurrentMusic().lrcPath);
-                                }
                             } catch (Exception e) {
                                 System.out.println("播放出现错误!");
                             }
                         }
                     }
                     break;
-                case R.id.btnPlayerPrevious:
+                case R.id.btnPlayerNext://上一首
                     if (playerService != null) {
                         try {
                             playerService.next();
-                            currentLRC = new LRCUtils(playerService.getCurrentMusic().lrcPath);
+                            Music music = playerService.getCurrentMusic();
+                            currentLRC = new LRCUtils(music.lrcPath);
+                            btnPlayerAddToFavorite.setImageResource(music.isFavorite
+                                    ? R.mipmap.button_add_to_favorite_fill
+                                    : R.mipmap.button_add_to_favorite_null);
                         } catch (Exception e) {
                             System.out.println("下一首出现错误!");
                         }
                     }
                     break;
-                case R.id.btnPlayerNext:
+                case R.id.btnPlayerPrevious://下一首
                     if (playerService != null) {
                         try {
                             playerService.previous();
-                            currentLRC = new LRCUtils(playerService.getCurrentMusic().lrcPath);
+                            Music music = playerService.getCurrentMusic();
+                            currentLRC = new LRCUtils(music.lrcPath);
+                            btnPlayerAddToFavorite.setImageResource(music.isFavorite
+                                    ? R.mipmap.button_add_to_favorite_fill
+                                    : R.mipmap.button_add_to_favorite_null);
                         } catch (Exception e) {
                             System.out.println("上一首出现错误!");
                         }
+                    }
+                    break;
+                case R.id.btnPlayerModel://修改循环模式
+                    if (playerService != null) {
+                        playerService.changePlayModel();
+                        switch (playerService.getPlayModel()) {
+                            case PlayerService.MODEL_SHUFFLE://随机
+                                btnPlayerModel.setImageResource(R.mipmap.button_shuffle_play_white);
+                                Toast.makeText(MainActivity.this, "随机播放", Toast.LENGTH_SHORT);
+                                break;
+                            case PlayerService.MODEL_ALL_REPEAT://循环
+                                btnPlayerModel.setImageResource(R.mipmap.button_all_repeat_play_white);
+                                Toast.makeText(MainActivity.this, "循环播放", Toast.LENGTH_SHORT);
+                                break;
+                            case PlayerService.MODEL_ONE_REPEAT://单曲
+                                btnPlayerModel.setImageResource(R.mipmap.button_one_repeat_play_white);
+                                Toast.makeText(MainActivity.this, "单曲循环", Toast.LENGTH_SHORT);
+                                break;
+                            case PlayerService.MODEL_SEQUENCE://顺序
+                                btnPlayerModel.setImageResource(R.mipmap.button_sequence_play_white);
+                                Toast.makeText(MainActivity.this, "顺序播放", Toast.LENGTH_SHORT);
+                                break;
+                        }
+                    }
+                    break;
+                case R.id.btnPlayerAddToFavorite://收藏
+                    Music music = playerService.getCurrentMusic();
+                    if (music.isFavorite) {//如果歌曲已收藏
+                        if (removeFromList(MYFAVORITE, music)) {//尝试移除
+                            btnPlayerAddToFavorite.setImageResource(R.mipmap.button_add_to_favorite_null);
+                            Toast.makeText(MainActivity.this, "移除收藏", Toast.LENGTH_SHORT).show();
+                        }
+                    } else {//歌曲尚未收藏
+                        if (addToList(MYFAVORITE, music)) {//尝试添加
+                            btnPlayerAddToFavorite.setImageResource(R.mipmap.button_add_to_favorite_fill);
+                            Toast.makeText(MainActivity.this, "添加收藏", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                    break;
+                case R.id.btnPlayerShowList://显示列表
+                    if (rlPlayerList.getVisibility() == RelativeLayout.VISIBLE) {
+                        System.out.println("设置列表隐藏");
+                        rlPlayerList.setVisibility(RelativeLayout.INVISIBLE);
+                        btnPlayerShowList.setImageResource(R.mipmap.button_show_list_white);
+                    } else if (rlPlayerList.getVisibility() == RelativeLayout.INVISIBLE) {
+                        if (playerService != null) playerService.renewList();
+                        System.out.println("设置列表显示");
+                        rlPlayerList.setVisibility(RelativeLayout.VISIBLE);
+                        btnPlayerShowList.setImageResource(R.mipmap.button_close_list_white);
                     }
                     break;
                 default:
@@ -263,25 +419,40 @@ public class MainActivity extends Activity implements ServiceConnection {
 
         @Override
         public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+            for (short j = 0; j < 5; j++) {
+                if (sbEqualizer[j].equals(seekBar)) {
+
+                    System.out.println("第 "+(j+1)+" 个进度条发生改变，值："+i);
+
+                    if (equalizer != null) {
+                        equalizer.setBandLevel(j, (short) i);
+                    }
+
+                    break;
+                }
+            }
         }
 
         @Override
         public void onStartTrackingTouch(SeekBar seekBar) {
-            seekBarTouching = true;
+            if (seekBar.getId() == R.id.sbPlayerPogress) {
+                seekBarTouching = true;
+            }
         }
 
         @Override
         public void onStopTrackingTouch(SeekBar seekBar) {
+            if (seekBar.getId() == R.id.sbPlayerPogress) {
+                if (playerService != null) {
+                    try {
 
-            if (playerService != null) {
-                try {
-
-                    playerService.seek(seekBar.getProgress() * 1.0d / seekBar.getMax());
-                } catch (Exception e) {
-                    System.out.println("进度条改变出错!");
+                        playerService.seek(seekBar.getProgress() * 1.0d / seekBar.getMax());
+                    } catch (Exception e) {
+                        System.out.println("进度条改变出错!");
+                    }
                 }
+                seekBarTouching = false;
             }
-            seekBarTouching = false;
         }
     }
 
@@ -297,9 +468,9 @@ public class MainActivity extends Activity implements ServiceConnection {
         localMusics = MusicSearcher.MusicSearch(this, root + "Music/Download/");
         if (localMusics == null) return;
         addToList(LOCALMUSIC, localMusics);
-        /**生成 我的最爱，随机添加 20 首 本地歌曲 中的歌曲*/
+        /**生成 我的最爱，随机添加 80 首 本地歌曲 中的歌曲*/
         createList(MYFAVORITE);
-        int[] index = new int[20];
+        int[] index = new int[80];
         Vector<Music> mFavorite;
         Random random = new Random(System.currentTimeMillis());
         for (int i = 0; i < index.length; i++) {
@@ -352,6 +523,8 @@ public class MainActivity extends Activity implements ServiceConnection {
         } else {
             System.out.println("分类结果为空！");
         }
+        System.out.println("@@本地歌曲列表：");
+        outList(LOCALMUSIC);
     }
 
     /**
@@ -431,11 +604,34 @@ public class MainActivity extends Activity implements ServiceConnection {
             if (m.contains(music)) {
                 res = false;
             } else {
+                if (title.equals(MYFAVORITE)) music.isFavorite = true;
                 m.add(music);
                 res = true;
             }
         } else res = false;
         return res;
+    }
+
+    private Boolean removeFromList(String title, int location) {
+        Vector<Music> m = playList.get(title);
+        if (m != null) {
+            try {
+                System.out.println("从播放列表： " + title + " 移除歌曲：" + m.elementAt(location).title);
+                if (title.equals(MYFAVORITE)) m.elementAt(location).isFavorite = false;
+                m.remove(location);
+                return true;
+            } catch (Exception e) {
+                System.out.println("从播放列表： " + title + " 移除歌曲出错！");
+                return false;
+            }
+        }
+        return false;
+    }
+
+    private Boolean removeFromList(String title, Music music) {
+        Vector<Music> m = playList.get(title);
+        if (title.equals(MYFAVORITE)) music.isFavorite = false;
+        return m != null && m.remove(music);
     }
 
     /**

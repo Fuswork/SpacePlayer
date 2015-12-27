@@ -20,7 +20,7 @@ public class ConfigInfo {
 
 
 	/**
-	 * 初始化时读取去所有信息
+	 * 初始化时读取所有信息
 	 *
 	 * @param context  上下文参数
 	 * @param listener 更改时的回掉函数
