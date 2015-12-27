@@ -44,6 +44,7 @@ import cc.koumakan.spaceplayer.entity.VerticalSeekBar;
 import cc.koumakan.spaceplayer.entity.WaveFormView;
 import cc.koumakan.spaceplayer.service.PlayerService;
 import cc.koumakan.spaceplayer.util.MusicSearcher;
+import cc.koumakan.spaceplayer.util.WatchReceiver;
 
 /**
  * Created by lhq on 2015/12/23.
@@ -66,6 +67,7 @@ public class MainActivity extends Activity implements ServiceConnection {
     private GestureDetector pGestureDetector;
     private int currentID = 0;
     private Equalizer equalizer = null;
+    private WatchReceiver watchReceiver = null;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -79,7 +81,7 @@ public class MainActivity extends Activity implements ServiceConnection {
         bindService(new Intent(this, PlayerService.class), this, Context.BIND_AUTO_CREATE);
 
         pViewFlipper = ((ViewFlipper) findViewById(R.id.vfPlayer));
-        pViewFlipper.showNext();
+//        pViewFlipper.showNext();
         pViewFlipper.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -166,6 +168,11 @@ public class MainActivity extends Activity implements ServiceConnection {
             }
         }
 
+        if (watchReceiver == null) {
+            watchReceiver = playerService.getWatchReceiver();
+            watchReceiver.setMainHandler(myHandler);
+        }
+
         System.out.println("*************************");
         System.out.println("******** 测试结束 ********");
         System.out.println("*************************");
@@ -183,15 +190,38 @@ public class MainActivity extends Activity implements ServiceConnection {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            if (msg.what == 1) {//刷新播放界面各控件
+            if (msg.what == 1)
+            {//刷新播放界面各控件
                 UpdatePlayerView(msg.getData());
                 String[] lrcLines;
                 lrcLines = currentLRC.getLRCLines(time, LyricView.LINE_COUNT);
                 lyricView.setLRCLines(lrcLines);
-            } else if (msg.what == 2) {//刷新歌词显示
+            }
+            else if (msg.what == 2)
+            {//刷新歌词显示
                 String[] lrcLines;
                 lrcLines = currentLRC.getLRCLines(time, LyricView.LINE_COUNT);
                 lyricView.setLRCLines(lrcLines);
+            }
+            else if (msg.what == 3)
+            {//Notification操作刷新主界面
+                Bundle data = msg.getData();
+                int action = data.getInt("TYPE");
+                switch (action) {
+                    case 0://播放暂停
+                        clickPlayPause();
+                        break;
+                    case 1://上一首
+                        clickPrevious();
+                        break;
+                    case 2://下一首
+                        clickNext();
+                        break;
+                    case 3://更改循环模式
+                        clickPlayModel();
+                        break;
+                }
+                if(playerService!=null) playerService.getNotifyTask().run();
             }
         }
 
@@ -308,72 +338,16 @@ public class MainActivity extends Activity implements ServiceConnection {
         public void onClick(View view) {
             switch (view.getId()) {
                 case R.id.btnPlayerPlayPause://播放、暂停
-                    if (playerService != null) {
-                        if (playerService.getIsPlaying()) {
-                            playerService.pause();
-                            ((ImageButton) findViewById(R.id.btnPlayerPlayPause))
-                                    .setImageResource(R.drawable.button_play);
-                        } else {
-                            try {
-                                playerService.play();
-                                ((ImageButton) findViewById(R.id.btnPlayerPlayPause))
-                                        .setImageResource(R.drawable.button_pause);
-                            } catch (Exception e) {
-                                System.out.println("播放出现错误!");
-                            }
-                        }
-                    }
+                    clickPlayPause();
                     break;
                 case R.id.btnPlayerNext://上一首
-                    if (playerService != null) {
-                        try {
-                            playerService.next();
-                            Music music = playerService.getCurrentMusic();
-                            currentLRC = new LRCUtils(music.lrcPath);
-                            btnPlayerAddToFavorite.setImageResource(music.isFavorite
-                                    ? R.mipmap.button_add_to_favorite_fill
-                                    : R.mipmap.button_add_to_favorite_null);
-                        } catch (Exception e) {
-                            System.out.println("下一首出现错误!");
-                        }
-                    }
+                    clickPrevious();
                     break;
                 case R.id.btnPlayerPrevious://下一首
-                    if (playerService != null) {
-                        try {
-                            playerService.previous();
-                            Music music = playerService.getCurrentMusic();
-                            currentLRC = new LRCUtils(music.lrcPath);
-                            btnPlayerAddToFavorite.setImageResource(music.isFavorite
-                                    ? R.mipmap.button_add_to_favorite_fill
-                                    : R.mipmap.button_add_to_favorite_null);
-                        } catch (Exception e) {
-                            System.out.println("上一首出现错误!");
-                        }
-                    }
+                    clickNext();
                     break;
                 case R.id.btnPlayerModel://修改循环模式
-                    if (playerService != null) {
-                        playerService.changePlayModel();
-                        switch (playerService.getPlayModel()) {
-                            case PlayerService.MODEL_SHUFFLE://随机
-                                btnPlayerModel.setImageResource(R.mipmap.button_shuffle_play_white);
-                                Toast.makeText(MainActivity.this, "随机播放", Toast.LENGTH_SHORT);
-                                break;
-                            case PlayerService.MODEL_ALL_REPEAT://循环
-                                btnPlayerModel.setImageResource(R.mipmap.button_all_repeat_play_white);
-                                Toast.makeText(MainActivity.this, "循环播放", Toast.LENGTH_SHORT);
-                                break;
-                            case PlayerService.MODEL_ONE_REPEAT://单曲
-                                btnPlayerModel.setImageResource(R.mipmap.button_one_repeat_play_white);
-                                Toast.makeText(MainActivity.this, "单曲循环", Toast.LENGTH_SHORT);
-                                break;
-                            case PlayerService.MODEL_SEQUENCE://顺序
-                                btnPlayerModel.setImageResource(R.mipmap.button_sequence_play_white);
-                                Toast.makeText(MainActivity.this, "顺序播放", Toast.LENGTH_SHORT);
-                                break;
-                        }
-                    }
+                    clickPlayModel();
                     break;
                 case R.id.btnPlayerAddToFavorite://收藏
                     Music music = playerService.getCurrentMusic();
@@ -407,6 +381,78 @@ public class MainActivity extends Activity implements ServiceConnection {
         }
     }
 
+    private void clickPlayPause() {
+        if (playerService != null) {
+            if (playerService.getIsPlaying()) {
+                playerService.pause();
+                ((ImageButton) findViewById(R.id.btnPlayerPlayPause))
+                        .setImageResource(R.drawable.button_play);
+            } else {
+                try {
+                    playerService.play();
+                    ((ImageButton) findViewById(R.id.btnPlayerPlayPause))
+                            .setImageResource(R.drawable.button_pause);
+                } catch (Exception e) {
+                    System.out.println("播放出现错误!");
+                }
+            }
+        }
+    }
+
+    private void clickPrevious() {
+        if (playerService != null) {
+            try {
+                playerService.next();
+                Music music = playerService.getCurrentMusic();
+                currentLRC = new LRCUtils(music.lrcPath);
+                btnPlayerAddToFavorite.setImageResource(music.isFavorite
+                        ? R.mipmap.button_add_to_favorite_fill
+                        : R.mipmap.button_add_to_favorite_null);
+            } catch (Exception e) {
+                System.out.println("上一首出现错误!");
+            }
+        }
+    }
+
+    private void clickNext() {
+        if (playerService != null) {
+            try {
+                playerService.previous();
+                Music music = playerService.getCurrentMusic();
+                currentLRC = new LRCUtils(music.lrcPath);
+                btnPlayerAddToFavorite.setImageResource(music.isFavorite
+                        ? R.mipmap.button_add_to_favorite_fill
+                        : R.mipmap.button_add_to_favorite_null);
+            } catch (Exception e) {
+                System.out.println("下一首出现错误!");
+            }
+        }
+    }
+
+    private void clickPlayModel(){
+        if (playerService != null) {
+            playerService.changePlayModel();
+            switch (playerService.getPlayModel()) {
+                case PlayerService.MODEL_SHUFFLE://随机
+                    btnPlayerModel.setImageResource(R.mipmap.button_shuffle_play_white);
+                    Toast.makeText(MainActivity.this, "随机播放", Toast.LENGTH_SHORT);
+                    break;
+                case PlayerService.MODEL_ALL_REPEAT://循环
+                    btnPlayerModel.setImageResource(R.mipmap.button_all_repeat_play_white);
+                    Toast.makeText(MainActivity.this, "循环播放", Toast.LENGTH_SHORT);
+                    break;
+                case PlayerService.MODEL_ONE_REPEAT://单曲
+                    btnPlayerModel.setImageResource(R.mipmap.button_one_repeat_play_white);
+                    Toast.makeText(MainActivity.this, "单曲循环", Toast.LENGTH_SHORT);
+                    break;
+                case PlayerService.MODEL_SEQUENCE://顺序
+                    btnPlayerModel.setImageResource(R.mipmap.button_sequence_play_white);
+                    Toast.makeText(MainActivity.this, "顺序播放", Toast.LENGTH_SHORT);
+                    break;
+            }
+        }
+    }
+
     /**
      * 指示进度条是否按下
      */
@@ -422,7 +468,7 @@ public class MainActivity extends Activity implements ServiceConnection {
             for (short j = 0; j < 5; j++) {
                 if (sbEqualizer[j].equals(seekBar)) {
 
-                    System.out.println("第 "+(j+1)+" 个进度条发生改变，值："+i);
+                    System.out.println("第 " + (j + 1) + " 个进度条发生改变，值：" + i);
 
                     if (equalizer != null) {
                         equalizer.setBandLevel(j, (short) i);
@@ -461,6 +507,7 @@ public class MainActivity extends Activity implements ServiceConnection {
     /**
      * 测试方法
      */
+
     private void myTest() {
         /**生成 本地歌曲，添加Download文件夹下所有歌曲*/
         createList(LOCALMUSIC);

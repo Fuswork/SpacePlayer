@@ -15,7 +15,9 @@ import android.provider.MediaStore;
 import android.util.Log;
 
 import cc.koumakan.spaceplayer.R;
+
 import android.os.*;
+
 import cc.koumakan.spaceplayer.entity.Music;
 import cc.koumakan.spaceplayer.util.WatchReceiver;
 import cc.koumakan.spaceplayer.entity.WaveFormView;
@@ -32,7 +34,11 @@ import java.util.Vector;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class PlayerService extends Service {
-    private PlayerNotification playerNotification;
+
+    private PlayerNotification playerNotification = null;
+
+    private WatchReceiver watchReceiver;
+
     private IBinder binder = new PlayerService.LocalBinder();
 
     public class LocalBinder extends Binder {
@@ -48,13 +54,6 @@ public class PlayerService extends Service {
     public IBinder onBind(Intent intent) {
         playerNotification = new PlayerNotification(this);
         playerNotification.init();
-        IntentFilter mNotificationIntentFilter = new IntentFilter();
-        mNotificationIntentFilter.addAction("LOCAL_TOGGLE");
-        mNotificationIntentFilter.addAction("LOCAL_PREVIOUS");
-        mNotificationIntentFilter.addAction("LOCAL_NEXT");
-        mNotificationIntentFilter.addAction("LOCAL_LOOP");
-        mNotificationIntentFilter.addAction("LOCAL_QUIT");
-        registerReceiver(new WatchReceiver(), mNotificationIntentFilter);
         return binder;
     }
 
@@ -67,8 +66,20 @@ public class PlayerService extends Service {
         }
         currentID = 0;
         list = new ArrayList<Map<String, String>>();
+
+        IntentFilter mNotificationIntentFilter = new IntentFilter();
+        mNotificationIntentFilter.addAction(WatchReceiver.LOCAL_TOGGLE);
+        mNotificationIntentFilter.addAction(WatchReceiver.LOCAL_PREVIOUS);
+        mNotificationIntentFilter.addAction(WatchReceiver.LOCAL_NEXT);
+        mNotificationIntentFilter.addAction(WatchReceiver.LOCAL_LOOP);
+        mNotificationIntentFilter.addAction(WatchReceiver.LOCAL_QUIT);
+        watchReceiver = new WatchReceiver();
+        registerReceiver(watchReceiver, mNotificationIntentFilter);
+
         timer.scheduleAtFixedRate(timerTask, 0, 50);
         timerTask.run();
+        notifyTimer.scheduleAtFixedRate(notifyTask, 0, 1000);
+        notifyTask.run();
 
         visualizer = new Visualizer(mediaDecoder.getAudioSessionId());
 //        visualizer.setEnabled(true);
@@ -86,6 +97,10 @@ public class PlayerService extends Service {
 
     public void setMainHandler(Handler mainHandler) {
         this.mainHandler = mainHandler;
+    }
+
+    public WatchReceiver getWatchReceiver() {
+        return watchReceiver;
     }
 
     /**
@@ -127,6 +142,42 @@ public class PlayerService extends Service {
             }
         }
     };
+    Timer notifyTimer = new Timer();
+    TimerTask notifyTask = new TimerTask() {
+        @Override
+        public void run() {
+            int ic, play_ic, loop_ic;
+            String name = null, album = null, artist = null;
+            float scale = -1.0f;
+
+            ic = R.drawable.default_album_image;
+
+            play_ic = isPlaying ? R.drawable.button_pause : R.drawable.button_play;
+
+            if(playModel == MODEL_SHUFFLE) loop_ic = R.mipmap.button_shuffle_play_white;
+            else if(playModel == MODEL_ALL_REPEAT) loop_ic = R.mipmap.button_all_repeat_play_white;
+            else if(playModel == MODEL_ONE_REPEAT) loop_ic = R.mipmap.button_one_repeat_play_white;
+            else loop_ic = R.mipmap.button_sequence_play_white;
+            if(currentList!=null) {
+                name = currentList.elementAt(currentID).title;
+                album = currentList.elementAt(currentID).album;
+                artist = currentList.elementAt(currentID).artist;
+
+                if(isPlaying) scale = mediaDecoder.getCurrentPosition()*1.0f/mediaDecoder.getDuration();
+            }
+
+            if(playerNotification != null) {
+
+                System.out.println("尝试更新Notification...");
+
+                playerNotification.refresh(ic, play_ic, loop_ic, name, album, artist, scale);
+            }
+        }
+    };
+
+    public TimerTask getNotifyTask() {
+        return notifyTask;
+    }
 
     private MediaDecoder mediaDecoder = null;//解码器
     private Map<String, Vector<Music>> playList;//播放列表
