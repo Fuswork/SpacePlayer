@@ -20,7 +20,8 @@
 			android:gravity="bottom"
 
 			android:singleLine="true"
-			android:text="@string/loading"/>
+			android:text="@string/loading"
+			android:textColor="#ffffff"/>
 
 	<TextView
 			style="@style/Notification"
@@ -34,7 +35,8 @@
 
 			android:singleLine="true"
 			android:maxEms="10"
-			android:text="@string/loading"/>
+			android:text="@string/loading"
+			android:textColor="#ffffff"/>
 
 	<TextView
 			style="@style/Notification"
@@ -44,7 +46,8 @@
 			android:layout_width="10dp"
 			android:layout_height="24dp"
 			android:gravity="center_horizontal"
-			android:text="@string/separator"/>
+			android:text="@string/separator"
+			android:textColor="#ffffff"/>
 
 	<TextView
 			style="@style/Notification"
@@ -56,12 +59,15 @@
 			android:gravity="top"
 
 			android:singleLine="true"
-			android:text="@string/loading"/>
+			android:text="@string/loading"
+			android:textColor="#ffffff"/>
 
 	<ProgressBar
 			style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Horizontal"
 			android:id="@+id/ntf_sbar"
 			android:layout_toEndOf="@id/ntf_iv_icon"
+			android:layout_marginStart="5dp"
+			android:layout_marginEnd="5dp"
 			android:layout_below="@id/ntf_tv_musicArtist"
 	        android:layout_width="match_parent"
 	        android:layout_height="10dp"
@@ -103,7 +109,7 @@
 
 				android:background="@drawable/btn_background"
 				android:scaleType="fitCenter"
-				android:src="@drawable/button_next"/>
+				android:src="@drawable/button_previous_1"/>
 
 		<ImageButton
 				android:id="@+id/ntf_ibtn_pause"
@@ -113,7 +119,7 @@
 
 				android:background="@drawable/btn_background"
 				android:scaleType="fitCenter"
-				android:src="@drawable/button_pause"/>
+				android:src="@drawable/button_play"/>
 
 		<ImageButton
 				android:id="@+id/ntf_ibtn_next"
