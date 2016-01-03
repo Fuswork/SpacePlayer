@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rlPlayer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#7d84c1"
     android:paddingTop="25dp">
-
+    <!--android:background="@mipmap/background01"-->
     <RelativeLayout
         android:id="@+id/rlPlayerMusicInfo"
         android:layout_width="match_parent"
@@ -164,7 +164,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_alignParentBottom="true"
-        android:background="#a18a9cd7"
+        android:background="#448a9cd7"
         android:stretchColumns="*">
         <TableRow>
 
@@ -173,7 +173,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="#00FFFFFF"
-                android:src="@mipmap/button_back_to_main"/>
+                android:src="@drawable/button_go_back_white"/>
 
             <ImageButton
                 android:id="@+id/btnPlayerAddToFavorite"
@@ -199,6 +199,12 @@
         </TableRow>
     </TableLayout>
 
-    <include layout="@layout/view_player_list_view"></include>
+    <include layout="@layout/view_player_list_view"
+             android:layout_width="match_parent"
+             android:layout_height="430dp"
+             android:layout_above="@+id/rlPlayerOptions">
+
+
+    </include>
 
 </RelativeLayout>

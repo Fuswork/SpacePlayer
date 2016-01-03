@@ -11,7 +11,8 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:gravity="center"
-        android:text="14000 Hz"/>
+        android:text="14000 Hz"
+        android:textColor="#FFFFFF"/>
 
     <cc.koumakan.spaceplayer.entity.VerticalSeekBar
         android:id="@+id/sbPlayerEqualizerValue"

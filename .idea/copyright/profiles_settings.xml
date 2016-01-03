@@ -1,9 +1,3 @@
 <component name="CopyrightManager">
-  <settings default="">
-    <LanguageOptions name="__TEMPLATE__">
-      <option name="separateBefore" value="true" />
-      <option name="separateAfter" value="true" />
-      <option name="box" value="true" />
-    </LanguageOptions>
-  </settings>
+  <settings default="" />
 </component>

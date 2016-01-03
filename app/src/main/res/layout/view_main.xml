@@ -1,101 +1,202 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
-		xmlns:android="http://schemas.android.com/apk/res/android"
-		android:paddingTop="25dp"
-		android:layout_width="match_parent"
-		android:layout_height="match_parent"
-		android:background="#FF212121">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rlMain"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#7d84c1"
+    android:paddingTop="25dp">
 
-	<RelativeLayout
-			android:id="@+id/main_top"
-			android:layout_width="match_parent"
-			android:layout_height="64dp">
-
-		<ImageButton
-				android:id="@+id/main_top_icon"
-				android:layout_width="64dp"
-				android:layout_height="64dp"
-				android:background="@drawable/btn_background"
-				android:src="@mipmap/button_add_to_favorite_null"/>
+    <RelativeLayout
+        android:id="@+id/main_top"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:background="#33000000">
 
 
-		<ImageButton
-				android:id="@+id/main_top_first"
-				android:layout_toEndOf="@id/main_top_icon"
-				android:layout_width="64dp"
-				android:layout_height="64dp"/>
+        <ImageButton
+            android:id="@+id/main_top_first"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:background="@drawable/btn_background"
+            android:src="@mipmap/ic_launcher"/>
 
-		<ImageButton
-				android:id="@+id/main_top_setting"
-				android:layout_alignParentEnd="true"
-				android:layout_width="64dp"
-				android:layout_height="64dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="64dp"
+            android:layout_toEndOf="@id/main_top_first"
+            android:background="@drawable/btn_background"
+            android:gravity="center"
+            android:text="SpacePlayer"
+            android:textSize="22sp"/>
 
-	</RelativeLayout>
+        <ImageButton
+            android:id="@+id/main_top_setting"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentEnd="true"
+            android:scaleType="fitXY"
+            android:layout_centerVertical="true"
+            android:background="@drawable/btn_background"
+            android:src="@drawable/setting"/>
 
-	<ViewFlipper
-			android:id="@+id/main_bottom"
-			android:layout_alignParentBottom="true"
-			android:layout_width="match_parent"
-			android:layout_height="70dp"
-			android:padding="3dp">
+    </RelativeLayout>
 
-		<include layout="@layout/view_main_bottom_play"/>
-		<include layout="@layout/view_main_bottom_lyric"/>
+    <include layout="@layout/view_setting">
+    </include>
 
-	</ViewFlipper>
+    <RelativeLayout
+        android:id="@+id/main_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_alignParentBottom="true"
+        android:background="#33000000"
+        android:padding="3dp">
 
+        <include layout="@layout/view_main_bottom_play"/>
 
-	<LinearLayout
-			android:layout_below="@id/main_top"
-			android:layout_above="@id/main_bottom"
-			android:layout_width="match_parent"
-			android:layout_height="match_parent"
-			android:paddingLeft="20dp"
-			android:paddingRight="20dp"
-			android:orientation="vertical">
-
-		<ImageButton
-				android:id="@+id/main_list_ibtn_playlist"
-				android:layout_width="match_parent"
-				android:layout_height="40dp"/>
-		<ScrollView
-				android:id="@+id/main_list_sv_playlist"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content">
-		</ScrollView>
-
-		<ImageButton
-				android:id="@+id/main_list_ibtn_album"
-				android:layout_width="match_parent"
-				android:layout_height="40dp"/>
-		<ScrollView
-				android:id="@+id/main_list_sv_album"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content">
-		</ScrollView>
-
-		<ImageButton
-				android:id="@+id/main_list_ibtn_artist"
-				android:layout_width="match_parent"
-				android:layout_height="40dp"/>
-		<ScrollView
-				android:id="@+id/main_list_sv_artist"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content">
-		</ScrollView>
-
-		<ImageButton
-				android:id="@+id/main_list__ibtn_style"
-				android:layout_width="match_parent"
-				android:layout_height="40dp"/>
-		<ScrollView
-				android:id="@+id/main_list__sv_style"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content">
-		</ScrollView>
+    </RelativeLayout>
 
 
-	</LinearLayout>
+    <LinearLayout
+        android:id="@+id/main_list_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/main_bottom"
+        android:layout_below="@id/main_top"
+        android:orientation="vertical"
+        android:padding="15dp">
+
+        <Button
+            android:id="@+id/main_list_ibtn_playlist"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:gravity="center_vertical"
+            android:text="播放列表"/>
+
+        <!--<RelativeLayout-->
+            <!--android:id="@+id/main_list_ibtn_playlist"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="40dp">-->
+
+            <!--<ImageView-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:src="@d"/>-->
+
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_centerVertical="true"-->
+                <!--android:layout_marginStart="7dp"-->
+                <!--android:text="播放列表"-->
+                <!--android:textSize="15sp"/>-->
+
+        <!--</RelativeLayout>-->
+
+        <ScrollView
+            android:id="@+id/scv_0"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:id="@+id/main_list_sv_playlist"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"/>
+        </ScrollView>
+
+        <Button
+            android:id="@+id/main_list_ibtn_album"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:gravity="center_vertical"
+            android:text="专辑"/>
+
+        <ScrollView
+            android:id="@+id/scv_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:id="@+id/main_list_sv_album"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+            </LinearLayout>
+        </ScrollView>
+
+        <Button
+            android:id="@+id/main_list_ibtn_artist"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:gravity="center_vertical"
+            android:text="歌手"/>
+
+        <ScrollView
+            android:id="@+id/scv_2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:id="@+id/main_list_sv_artist"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"/>
+        </ScrollView>
+
+        <Button
+            android:id="@+id/main_list_ibtn_style"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:gravity="center_vertical"
+            android:text="风格"/>
+
+        <ScrollView
+            android:id="@+id/scv_3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:id="@+id/main_list_sv_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"/>
+        </ScrollView>
+
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/rlListMusics"
+        android:layout_width="match_parent"
+        android:layout_height="440dp"
+        android:background="#AA8a8a8a"
+        android:visibility="invisible"
+        android:layout_above="@+id/main_bottom">
+
+        <TextView
+            android:id="@+id/tvListMusicsTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="15dp"
+            android:text="@string/current_list"
+            android:textSize="20sp"
+            android:textColor="#FFFFFF"/>
+
+        <ListView
+            android:id="@+id/lvCommonListView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvListMusicsTitle"
+            android:layout_marginTop="10dp"
+            android:divider="@null"
+            android:contentDescription="列表为空"
+            android:listSelector="#4effffff">
+
+        </ListView>
+
+    </RelativeLayout>
 
 </RelativeLayout>

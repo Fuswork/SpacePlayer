@@ -3,6 +3,7 @@ package cc.koumakan.spaceplayer.service;
 import android.app.Service;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Bitmap;
 import android.media.MediaPlayer;
 import android.media.audiofx.Equalizer;
 import android.media.audiofx.Visualizer;
@@ -142,6 +143,7 @@ public class PlayerService extends Service {
             }
         }
     };
+
     Timer notifyTimer = new Timer();
     TimerTask notifyTask = new TimerTask() {
         @Override
@@ -167,9 +169,6 @@ public class PlayerService extends Service {
             }
 
             if(playerNotification != null) {
-
-                System.out.println("尝试更新Notification...");
-
                 playerNotification.refresh(ic, play_ic, loop_ic, name, album, artist, scale);
             }
         }
@@ -225,6 +224,14 @@ public class PlayerService extends Service {
     public Music getCurrentMusic() {
         if (currentList == null) return null;
         return currentList.get(currentID);
+    }
+
+    public int getCurrentID() {
+        return currentID;
+    }
+
+    public void setCurrentID(int currentID) {
+        this.currentID = currentID;
     }
 
     private List<Map<String, String>> list;
@@ -308,15 +315,23 @@ public class PlayerService extends Service {
      * 播放
      **/
     public void play() throws IOException {
-        if (isIdle) {
-            load(currentList.elementAt(currentID).data);
-            mediaDecoder.prepare();
-            isIdle = false;
+        if(!isPlaying) {
+            if (isIdle) {
+                load(currentList.elementAt(currentID).data);
+                mediaDecoder.prepare();
+                isIdle = false;
+            }
+            mediaDecoder.start();
+            visualizer.setEnabled(true);
+            isPlaying = true;
+            timerTask.run();
+        }else{
+            mediaDecoder.stop();
+            isPlaying = false;
+            isIdle = true;
+            mediaDecoder.reset();
+            play();
         }
-        mediaDecoder.start();
-        visualizer.setEnabled(true);
-        isPlaying = true;
-        timerTask.run();
     }
 
     /**

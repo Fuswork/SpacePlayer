@@ -49,6 +49,7 @@ public class Music {
         this.data = data;
         this.duration = duration;
         this.size = size;
+        this.albumImage = MainActivity.root+"Music/Cover/"+this.artist+" - "+this.album+".jpg";
         this.lrcPath = MainActivity.root+"Music/Lyric/"+this.artist+" - "+this.title+".lrc";
         this.isFavorite = false;
     }

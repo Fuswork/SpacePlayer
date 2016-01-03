@@ -4,7 +4,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#7d84c1">
+    >
+    <!--android:background="#7d84c1"-->
 
     <cc.koumakan.spaceplayer.entity.WaveFormView
         android:id="@+id/wfPlayerWaveform"
@@ -21,7 +22,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=" 15 dB"/>
+            android:text=" 15 dB"
+            android:textColor="#ffffff"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -29,7 +31,8 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="23dp"
-            android:text="15 dB "/>
+            android:text="15 dB "
+            android:textColor="#ffffff"/>
 
 
         <TextView
@@ -37,13 +40,15 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="23dp"
-            android:text="-15 dB"/>
+            android:text="-15 dB"
+            android:textColor="#ffffff"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:text="-15 dB"/>
+            android:text="-15 dB"
+            android:textColor="#ffffff"/>
 
         <include
             android:id="@+id/rlPlayerEqualizerView1"

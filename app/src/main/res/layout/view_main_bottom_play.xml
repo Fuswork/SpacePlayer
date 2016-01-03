@@ -1,24 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
 		xmlns:android="http://schemas.android.com/apk/res/android"
-		android:layout_width="match_parent"
-		android:layout_height="match_parent">
-	<ImageButton
-			android:id="@+id/main_bottom_ibtn_quit"
-			android:layout_alignParentEnd="true"
-			android:layout_alignParentBottom="true"
-			android:layout_marginEnd="5dp"
-			android:layout_width="40dp"
-			android:layout_height="40dp"
 
-			android:background="@drawable/btn_background"
-			android:scaleType="fitCenter"
-			android:src="@drawable/button_next_1"/>
+		android:layout_width="match_parent"
+		android:layout_height="70dp">
 
 	<ImageButton
 			android:id="@+id/main_bottom_ibtn_next"
-			android:layout_toStartOf="@id/main_bottom_ibtn_quit"
 			android:layout_alignParentBottom="true"
+			android:layout_alignParentEnd="true"
+			android:layout_marginEnd="10dp"
 			android:layout_width="40dp"
 			android:layout_height="40dp"
 
@@ -29,6 +20,7 @@
 	<ImageButton
 			android:id="@+id/main_bottom_ibtn_pause"
 			android:layout_toStartOf="@id/main_bottom_ibtn_next"
+			android:layout_marginEnd="10dp"
 			android:layout_alignParentBottom="true"
 			android:layout_width="40dp"
 			android:layout_height="40dp"
@@ -44,12 +36,17 @@
 			android:layout_width="64dp"
 			android:layout_height="64dp"/>
 
-	<SeekBar
+	<ProgressBar
+			style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Horizontal"
 			android:id="@+id/main_bottom_sbar"
 			android:layout_toEndOf="@id/main_bottom_iv_icon"
+			android:layout_margin="5dp"
 			android:layout_width="match_parent"
-			android:layout_height="20dp"
-			android:padding="2dp"/>
+			android:layout_height="2dp"
+
+			android:progress="20"
+			android:progressDrawable="@drawable/progress_holo_light"
+			android:thumb="@drawable/detail_icon_schedule_ball"/>
 
 	<TextView
 			android:id="@+id/main_bottom_tv_musicName"

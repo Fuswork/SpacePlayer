@@ -31,11 +31,6 @@ public class WatchReceiver extends BroadcastReceiver {
     }
 
 	public void onReceive(Context context, Intent intent) {
-//		if (toast != null) toast.cancel();
-//		toast = Toast.makeText(context,
-//				intent.getAction() + intent.getStringExtra("key") + intent.getDataString()
-//				, Toast.LENGTH_SHORT);
-//		toast.show();
 
         if(mainHandler!=null){
 
