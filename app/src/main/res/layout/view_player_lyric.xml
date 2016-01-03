@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
-    android:id="@+id/rlPlayerLyricView"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#00FFFFFF">
+		android:id="@+id/rlPlayerLyricView"
+		xmlns:android="http://schemas.android.com/apk/res/android"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:background="#00FFFFFF">
 
-    <cc.koumakan.spaceplayer.entity.LyricView
-        android:id="@+id/lvPlayerLyricView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+	<cc.koumakan.spaceplayer.entity.LyricView
+			android:id="@+id/lvPlayerLyricView"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"/>
 
 </RelativeLayout>

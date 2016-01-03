@@ -1,100 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
-    android:id="@+id/rlPlayerWaveformView"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
-    <!--android:background="#7d84c1"-->
+		android:id="@+id/rlPlayerWaveformView"
+		xmlns:android="http://schemas.android.com/apk/res/android"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+>
+	<!--android:background="#7d84c1"-->
 
-    <cc.koumakan.spaceplayer.entity.WaveFormView
-        android:id="@+id/wfPlayerWaveform"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+	<cc.koumakan.spaceplayer.entity.WaveFormView
+			android:id="@+id/wfPlayerWaveform"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"/>
 
-    <RelativeLayout
-        android:id="@+id/rlPlayerEqualizerViewGroup"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_alignParentBottom="true"
-        android:visibility="visible">
+	<RelativeLayout
+			android:id="@+id/rlPlayerEqualizerViewGroup"
+			android:layout_width="match_parent"
+			android:layout_height="200dp"
+			android:layout_alignParentBottom="true"
+			android:visibility="visible">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=" 15 dB"
-            android:textColor="#ffffff"/>
+		<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text=" 15 dB"
+				android:textColor="#ffffff"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="23dp"
-            android:text="15 dB "
-            android:textColor="#ffffff"/>
+		<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_alignParentEnd="true"
+				android:layout_alignParentBottom="true"
+				android:layout_marginBottom="23dp"
+				android:text="15 dB "
+				android:textColor="#ffffff"/>
 
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="23dp"
-            android:text="-15 dB"
-            android:textColor="#ffffff"/>
+		<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_alignParentBottom="true"
+				android:layout_marginBottom="23dp"
+				android:text="-15 dB"
+				android:textColor="#ffffff"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:text="-15 dB"
-            android:textColor="#ffffff"/>
+		<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_alignParentEnd="true"
+				android:text="-15 dB"
+				android:textColor="#ffffff"/>
 
-        <include
-            android:id="@+id/rlPlayerEqualizerView1"
-            layout="@layout/item_player_equalizer_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toStartOf="@+id/rlPlayerEqualizerView2">
+		<include
+				android:id="@+id/rlPlayerEqualizerView1"
+				layout="@layout/item_player_equalizer_view"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_toStartOf="@+id/rlPlayerEqualizerView2">
 
-        </include>
+		</include>
 
-        <include
-            android:id="@+id/rlPlayerEqualizerView2"
-            layout="@layout/item_player_equalizer_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toStartOf="@+id/rlPlayerEqualizerView3">
+		<include
+				android:id="@+id/rlPlayerEqualizerView2"
+				layout="@layout/item_player_equalizer_view"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_toStartOf="@+id/rlPlayerEqualizerView3">
 
-        </include>
+		</include>
 
-        <include
-            android:id="@+id/rlPlayerEqualizerView3"
-            layout="@layout/item_player_equalizer_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true">
+		<include
+				android:id="@+id/rlPlayerEqualizerView3"
+				layout="@layout/item_player_equalizer_view"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_centerHorizontal="true">
 
-        </include>
+		</include>
 
-        <include
-            android:id="@+id/rlPlayerEqualizerView4"
-            layout="@layout/item_player_equalizer_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toEndOf="@+id/rlPlayerEqualizerView3">
+		<include
+				android:id="@+id/rlPlayerEqualizerView4"
+				layout="@layout/item_player_equalizer_view"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_toEndOf="@+id/rlPlayerEqualizerView3">
 
-        </include>
+		</include>
 
-        <include
-            android:id="@+id/rlPlayerEqualizerView5"
-            layout="@layout/item_player_equalizer_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toEndOf="@+id/rlPlayerEqualizerView4">
+		<include
+				android:id="@+id/rlPlayerEqualizerView5"
+				layout="@layout/item_player_equalizer_view"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_toEndOf="@+id/rlPlayerEqualizerView4">
 
-        </include>
+		</include>
 
-    </RelativeLayout>
+	</RelativeLayout>
 
 </RelativeLayout>

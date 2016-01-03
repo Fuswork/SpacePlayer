@@ -10,8 +10,8 @@ import android.media.MediaPlayer;
  */
 public class MediaDecoder extends MediaPlayer {
 
-    public MediaDecoder() {
-        super();
-    }
+	public MediaDecoder() {
+		super();
+	}
 
 }

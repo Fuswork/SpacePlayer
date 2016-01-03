@@ -16,48 +16,48 @@ import android.widget.Toast;
  */
 public class WatchReceiver extends BroadcastReceiver {
 
-    public static final String LOCAL_TOGGLE = "LOCAL_TOGGLE";//播放暂停
-    public static final String LOCAL_PREVIOUS = "LOCAL_PREVIOUS";//上一首
-    public static final String LOCAL_NEXT = "LOCAL_NEXT";//下一首
-    public static final String LOCAL_LOOP = "LOCAL_LOOP";//更改循环模式
-    public static final String LOCAL_QUIT = "LOCAL_QUIT";//退出
+	public static final String LOCAL_TOGGLE = "LOCAL_TOGGLE";//播放暂停
+	public static final String LOCAL_PREVIOUS = "LOCAL_PREVIOUS";//上一首
+	public static final String LOCAL_NEXT = "LOCAL_NEXT";//下一首
+	public static final String LOCAL_LOOP = "LOCAL_LOOP";//更改循环模式
+	public static final String LOCAL_QUIT = "LOCAL_QUIT";//退出
 
 	private static Toast toast;
 
-    private Handler mainHandler = null;
+	private Handler mainHandler = null;
 
-    public void setMainHandler(Handler mainHandler) {
-        this.mainHandler = mainHandler;
-    }
+	public void setMainHandler(Handler mainHandler) {
+		this.mainHandler = mainHandler;
+	}
 
 	public void onReceive(Context context, Intent intent) {
 
-        if(mainHandler!=null){
+		if (mainHandler != null) {
 
-            Bundle data = new Bundle();
+			Bundle data = new Bundle();
 
-            int type = -1;
+			int type = -1;
 
-            if(intent.getAction().equals(LOCAL_TOGGLE)){
-                type = 0;
-            }else if(intent.getAction().equals(LOCAL_PREVIOUS)){
-                type = 1;
-            }else if(intent.getAction().equals(LOCAL_NEXT)){
-                type = 2;
-            }else if(intent.getAction().equals(LOCAL_LOOP)){
-                type = 3;
-            }else if(intent.getAction().equals(LOCAL_QUIT)){
-                type = 4;
-            }
+			if (intent.getAction().equals(LOCAL_TOGGLE)) {
+				type = 0;
+			} else if (intent.getAction().equals(LOCAL_PREVIOUS)) {
+				type = 1;
+			} else if (intent.getAction().equals(LOCAL_NEXT)) {
+				type = 2;
+			} else if (intent.getAction().equals(LOCAL_LOOP)) {
+				type = 3;
+			} else if (intent.getAction().equals(LOCAL_QUIT)) {
+				type = 4;
+			}
 
-            data.putInt("TYPE", type);
+			data.putInt("TYPE", type);
 
-            Message msg = new Message();
-            msg.what = 3;
-            msg.setData(data);
+			Message msg = new Message();
+			msg.what = 3;
+			msg.setData(data);
 
-            mainHandler.sendMessage(msg);
-        }
+			mainHandler.sendMessage(msg);
+		}
 
 	}
 

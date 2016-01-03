@@ -39,7 +39,7 @@ public class TableView extends TableLayout {
 			LinearLayout tableRow = new LinearLayout(context);
 			max_height += 380;
 			for (int j = 0; j < 3 && 3 * i + j < rc.length; j++) {
-				childeView[3 * i + j] = make(rc[3 * i + j], center[3 * i + j], num[3 * i + j], ""+kind);
+				childeView[3 * i + j] = make(rc[3 * i + j], center[3 * i + j], num[3 * i + j], "" + kind);
 				tableRow.addView(childeView[3 * i + j], new LinearLayout.LayoutParams(width, 380));
 			}
 			addView(tableRow, new LayoutParams(-1, -2));
